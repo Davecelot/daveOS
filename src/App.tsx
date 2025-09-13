@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import { useSettingsStore } from './system/store/settings';
 import { useSessionStore } from './system/store/session';
 import { useSimpleFileSystemStore } from './system/store/simple-filesystem';
-import { TopBar } from './system/ui/TopBar';
-import { Dock } from './system/ui/Dock';
+import { Taskbar } from './system/ui/Taskbar';
 import { Desktop } from './system/ui/Desktop';
 import { Overview } from './system/ui/Overview';
 import { WindowManager } from './system/wm/Window';
@@ -119,20 +118,10 @@ function App() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
-      {/* Desktop Background */}
       <Desktop />
-      
-      {/* System UI */}
-      <TopBar />
-      <Dock />
-      
-      {/* Window Manager */}
+      <Taskbar />
       <WindowManager />
-      
-      {/* Overview */}
       <Overview />
-      
-      {/* Toast Notifications */}
       <ToastContainer />
       
       {/* Global Styles */}
