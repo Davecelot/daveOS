@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import { Home, Trash2 } from 'lucide-react'
-import { useSettingsStore } from '../store/settings'
 
 interface DesktopIcon {
   id: string
@@ -28,20 +27,12 @@ const DEFAULT_ICONS: DesktopIcon[] = [
 ]
 
 export function Desktop() {
-  const { settings } = useSettingsStore()
   const [icons] = useState<DesktopIcon[]>(DEFAULT_ICONS)
   const [selectedIcons, setSelectedIcons] = useState<string[]>([])
   const [isSelecting, setIsSelecting] = useState(false)
   const [selectionStart, setSelectionStart] = useState({ x: 0, y: 0 })
   const [selectionEnd, setSelectionEnd] = useState({ x: 0, y: 0 })
   const desktopRef = useRef<HTMLDivElement>(null)
-
-  const desktopStyle: React.CSSProperties = {
-    backgroundImage: `url(${settings.wallpaper})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat'
-  }
 
   const handleDesktopClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {

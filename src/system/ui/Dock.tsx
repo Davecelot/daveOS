@@ -97,7 +97,7 @@ export function Dock() {
     })
   }
 
-  const handleContextMenu = (appId: string, event: React.MouseEvent) => {
+  const handleContextMenu = (_appId: string, event: React.MouseEvent) => {
     event.preventDefault()
     // TODO: Show context menu with options like "New Window", "Unpin", etc.
   }
@@ -106,8 +106,6 @@ export function Dock() {
     const windows = getWindowsByApp(appId)
     return windows.some(w => !w.minimized && w.visible)
   }
-
-  const dockClasses = `dock ${settings.dock.autoHide ? 'dock-auto-hide' : ''}`
 
   return (
     <div className="fixed left-0 top-8 bottom-0 w-16 bg-black bg-opacity-60 backdrop-blur-sm flex flex-col items-center py-4 space-y-2 z-40">

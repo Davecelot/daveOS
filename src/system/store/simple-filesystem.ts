@@ -11,6 +11,8 @@ interface SimpleFileSystemState {
   isLoading: boolean;
   error: string | null;
   isInitialized: boolean;
+  navigationHistory: string[];
+  historyIndex: number;
   
   // Actions
   initialize: () => Promise<void>;
@@ -18,6 +20,8 @@ interface SimpleFileSystemState {
   navigateUp: () => Promise<void>;
   navigateHome: () => Promise<void>;
   refresh: () => Promise<void>;
+  goBack: () => Promise<void>;
+  goForward: () => Promise<void>;
   
   // Selection
   selectEntry: (id: string) => void;
@@ -41,6 +45,8 @@ export const useSimpleFileSystemStore = create<SimpleFileSystemState>()(
       isLoading: false,
       error: null,
       isInitialized: false,
+      navigationHistory: ['/home/user'],
+      historyIndex: 0,
 
       // Initialize the file system
       initialize: async () => {
@@ -68,20 +74,28 @@ export const useSimpleFileSystemStore = create<SimpleFileSystemState>()(
 
       // Navigation
       navigateTo: async (path: string) => {
-        set({ isLoading: true, error: null, selectedEntries: [] });
+        set({ isLoading: true, error: null });
         
         try {
-          const entries = await SimpleFileSystemAPI.getEntries(path);
+          const entries = await SimpleFileSystemAPI.listDirectory(path);
+          const { navigationHistory, historyIndex } = get();
+          
+          // Update navigation history
+          const newHistory = [...navigationHistory.slice(0, historyIndex + 1), path];
+          
           set({ 
             currentPath: path,
             currentEntries: entries,
-            isLoading: false 
+            selectedEntries: [],
+            isLoading: false,
+            navigationHistory: newHistory,
+            historyIndex: newHistory.length - 1
           });
         } catch (error) {
-          console.error('Failed to navigate to path:', error);
+          console.error('Failed to navigate:', error);
           set({ 
             error: `Failed to navigate to ${path}`,
-            isLoading: false 
+            isLoading: false
           });
         }
       },
@@ -101,6 +115,26 @@ export const useSimpleFileSystemStore = create<SimpleFileSystemState>()(
       refresh: async () => {
         const { currentPath } = get();
         await get().navigateTo(currentPath);
+      },
+
+      goBack: async () => {
+        const { navigationHistory, historyIndex } = get();
+        if (historyIndex > 0) {
+          const newIndex = historyIndex - 1;
+          const path = navigationHistory[newIndex];
+          set({ historyIndex: newIndex });
+          await get().navigateTo(path);
+        }
+      },
+
+      goForward: async () => {
+        const { navigationHistory, historyIndex } = get();
+        if (historyIndex < navigationHistory.length - 1) {
+          const newIndex = historyIndex + 1;
+          const path = navigationHistory[newIndex];
+          set({ historyIndex: newIndex });
+          await get().navigateTo(path);
+        }
       },
 
       // Selection management

@@ -1,9 +1,9 @@
-import { SimpleFileSystemAPI, SimpleEntry } from '../fs/simple-api';
+import { SimpleFileSystemAPI } from '../fs/simple-api';
 import { FSEntryType } from '../store/types';
 
 export class CommandProcessor {
   private currentPath: string;
-  private setCurrentPath: (path: string) => void;
+  private onPathChange: (path: string) => void;
   private writeOutput: (output: string) => void;
   private environment: Record<string, string> = {
     USER: 'user',
@@ -19,12 +19,15 @@ export class CommandProcessor {
     writeOutput: (output: string) => void
   ) {
     this.currentPath = initialPath;
-    this.setCurrentPath = setCurrentPath;
+    this.onPathChange = setCurrentPath;
     this.writeOutput = writeOutput;
   }
 
-  setCurrentPath(path: string) {
+  public setCurrentPath(path: string) {
     this.currentPath = path;
+    if (this.onPathChange) {
+      this.onPathChange(path);
+    }
   }
 
   async execute(command: string): Promise<void> {

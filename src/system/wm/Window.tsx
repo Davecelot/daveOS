@@ -48,9 +48,9 @@ export function Window({ window, children }: WindowProps) {
   })
 
   const {
-    elementRef,
+    elementRef: _elementRef,
     isDragging,
-    isResizing,
+    isResizing: _isResizing,
     handleMouseDown,
     resizeHandles
   } = useDragResize({
@@ -91,7 +91,6 @@ export function Window({ window, children }: WindowProps) {
       if (!rect) return
 
       const screenWidth = globalThis.innerWidth
-      const screenHeight = globalThis.innerHeight
       const threshold = 20
 
       // Snap to maximize if dragged to top
@@ -245,45 +244,6 @@ export function WindowManager() {
   )
 }
 function WindowContent({ windowId, appId }: { windowId: string; appId: string }) {
-  // Placeholder app components
-  const TextEditor = () => (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4">Text Editor</h2>
-      <textarea 
-        className="w-full h-64 p-2 border rounded resize-none"
-        placeholder="Start typing..."
-      />
-    </div>
-  );
-
-  const FileManager = () => (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4">File Manager</h2>
-      <div className="grid grid-cols-4 gap-2">
-        {['Documents', 'Pictures', 'Music', 'Videos'].map(folder => (
-          <div key={folder} className="p-2 border rounded text-center">
-            📁 {folder}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const Settings = () => (
-    <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4">Settings</h2>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span>Dark Mode</span>
-          <input type="checkbox" />
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Notifications</span>
-          <input type="checkbox" defaultChecked />
-        </div>
-      </div>
-    </div>
-  );
 
   const apps: Record<string, React.ComponentType<any>> = {
     terminal: SimpleTerminal,

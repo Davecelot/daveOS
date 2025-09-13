@@ -8,7 +8,6 @@ import {
   AlertCircle, 
   CheckCircle,
   Clock,
-  Settings,
   Trash2
 } from 'lucide-react';
 

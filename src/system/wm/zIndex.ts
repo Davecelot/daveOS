@@ -14,7 +14,7 @@ export const Z_INDEX = {
 
 export class ZIndexManager {
   private static instance: ZIndexManager
-  private currentMaxZ = Z_INDEX.WINDOWS_BASE
+  private currentMaxZ: number = Z_INDEX.WINDOWS_BASE
   private windowZIndexes = new Map<string, number>()
 
   private constructor() {}

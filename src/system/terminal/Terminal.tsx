@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Terminal as XTerm } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
-import { SearchAddon } from 'xterm-addon-search';
 import 'xterm/css/xterm.css';
 import { CommandProcessor } from './CommandProcessor';
 import { useSimpleFileSystemStore } from '../store/simple-filesystem';
@@ -12,7 +11,7 @@ interface TerminalProps {
   onClose?: () => void;
 }
 
-export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
+export const Terminal: React.FC<TerminalProps> = ({ windowId: _windowId, onClose }) => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const xtermRef = useRef<XTerm | null>(null);
   const fitAddonRef = useRef<FitAddon | null>(null);
@@ -21,9 +20,9 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
   const [currentPath, setCurrentPath] = useState('/home/user');
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [currentCommand, setCurrentCommand] = useState('');
   
-  const { currentEntries, navigateTo } = useSimpleFileSystemStore();
+  
+  const { currentEntries } = useSimpleFileSystemStore();
 
   useEffect(() => {
     if (!terminalRef.current) return;
@@ -34,7 +33,7 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
         background: '#300A24',
         foreground: '#FFFFFF',
         cursor: '#FFFFFF',
-        selection: '#FFFFFF40',
+        
         black: '#2E3436',
         red: '#CC0000',
         green: '#4E9A06',
@@ -64,11 +63,10 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
     // Add addons
     const fitAddon = new FitAddon();
     const webLinksAddon = new WebLinksAddon();
-    const searchAddon = new SearchAddon();
 
     terminal.loadAddon(fitAddon);
     terminal.loadAddon(webLinksAddon);
-    terminal.loadAddon(searchAddon);
+    
 
     // Open terminal
     terminal.open(terminalRef.current);
@@ -111,12 +109,10 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
           setHistoryIndex(-1);
         }
         currentInput = '';
-        setCurrentCommand('');
       } else if (char === 127) { // Backspace
         if (currentInput.length > 0) {
           currentInput = currentInput.slice(0, -1);
           terminal.write('\b \b');
-          setCurrentCommand(currentInput);
         }
       } else if (char === 27) { // Escape sequences
         // Handle arrow keys for history navigation
@@ -130,7 +126,6 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
       } else if (char >= 32 && char <= 126) { // Printable characters
         currentInput += data;
         terminal.write(data);
-        setCurrentCommand(currentInput);
       }
     });
 
@@ -175,7 +170,6 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
         currentInput = newCommand;
         terminal.write(newCommand);
         setHistoryIndex(newIndex);
-        setCurrentCommand(newCommand);
       }
     }
 
@@ -193,7 +187,6 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
           const completion = matches[0].slice(lastPart.length);
           terminal.write(completion + ' ');
           currentInput += completion + ' ';
-          setCurrentCommand(currentInput);
         }
       } else {
         // File/directory completion
@@ -205,7 +198,6 @@ export const Terminal: React.FC<TerminalProps> = ({ windowId, onClose }) => {
           const completion = entries[0].name.slice(lastPart.length);
           terminal.write(completion);
           currentInput += completion;
-          setCurrentCommand(currentInput);
         }
       }
     }

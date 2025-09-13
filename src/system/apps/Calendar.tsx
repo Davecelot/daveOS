@@ -3,12 +3,6 @@ import {
   ChevronLeft, 
   ChevronRight, 
   Plus, 
-  Calendar as CalendarIcon,
-  Clock,
-  MapPin,
-  Users,
-  Bell,
-  Edit,
   Trash2,
   X,
   Save
@@ -33,7 +27,7 @@ interface CalendarProps {
   onClose?: () => void;
 }
 
-export const Calendar: React.FC<CalendarProps> = ({ onClose }) => {
+export const Calendar: React.FC<CalendarProps> = ({ onClose: _onClose }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<'month' | 'week' | 'day'>('month');

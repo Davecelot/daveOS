@@ -21,7 +21,7 @@ interface ImageViewerProps {
   onClose?: () => void;
 }
 
-export const ImageViewer: React.FC<ImageViewerProps> = ({ imagePath, onClose }) => {
+export const ImageViewer: React.FC<ImageViewerProps> = ({ imagePath, onClose: _onClose }) => {
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [imageList, setImageList] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

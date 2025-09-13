@@ -6,18 +6,15 @@ import {
   ArrowLeft, 
   ArrowRight, 
   ArrowUp, 
-  Refresh,
+  RefreshCw,
   Search,
   Grid,
   List,
-  Upload,
-  Download,
   Trash2,
   Copy,
-  Cut,
+  Scissors,
   FolderPlus,
-  FilePlus,
-  MoreVertical
+  FilePlus
 } from 'lucide-react';
 import { useSimpleFileSystemStore } from '../store/simple-filesystem';
 import { FSEntryType } from '../store/types';
@@ -27,11 +24,11 @@ interface FileManagerProps {
   onClose?: () => void;
 }
 
-export const FileManager: React.FC<FileManagerProps> = ({ onClose }) => {
+export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
-  const [clipboard, setClipboard] = useState<{items: any[], operation: 'copy' | 'cut'} | null>(null);
+  const [, setClipboard] = useState<{items: any[], operation: 'copy' | 'cut'} | null>(null);
   const [showContextMenu, setShowContextMenu] = useState<{x: number, y: number, item?: any} | null>(null);
   
   const {
@@ -217,7 +214,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose }) => {
             className="p-1 text-gray-600 hover:text-gray-800"
             title="Refresh"
           >
-            <Refresh className="w-4 h-4" />
+            <RefreshCw className="w-4 h-4" />
           </button>
         </div>
 
@@ -390,7 +387,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose }) => {
                 onClick={handleCut}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 flex items-center space-x-2"
               >
-                <Cut className="w-4 h-4" />
+                <Scissors className="w-4 h-4" />
                 <span>Cut</span>
               </button>
               <hr className="my-1" />

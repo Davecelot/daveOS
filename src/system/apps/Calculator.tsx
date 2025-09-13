@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Delete, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 
 interface CalculatorProps {
   windowId?: string;
   onClose?: () => void;
 }
 
-export const Calculator: React.FC<CalculatorProps> = ({ onClose }) => {
-  const [display, setDisplay] = useState('0');
+export const Calculator: React.FC<CalculatorProps> = ({ onClose: _onClose }) => {
   const [previousValue, setPreviousValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
   const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
+  const [display, setDisplay] = useState('0');
 
   const inputNumber = (num: string) => {
     if (waitingForOperand) {

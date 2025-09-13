@@ -8,7 +8,7 @@ interface WindowStore {
   nextZIndex: number
   
   // Actions
-  openWindow: (window: Omit<WindowState, 'id' | 'zIndex' | 'focused'> & { id?: string }) => string
+  openWindow: (window: Partial<Omit<WindowState, 'id' | 'zIndex' | 'focused'>> & { appId: string; title: string; bounds?: Bounds; workspace?: number; id?: string }) => string
   closeWindow: (windowId: string) => void
   focusWindow: (windowId: string) => void
   minimizeWindow: (windowId: string) => void
@@ -93,8 +93,7 @@ export const useWindowStore = create<WindowStore>()(
         minimizable: windowData.minimizable ?? true,
         maximizable: windowData.maximizable ?? true,
         visible: windowData.visible ?? true,
-        workspace: windowData.workspace || 1,
-        ...windowData
+        workspace: windowData.workspace || 1
       }
 
       set((state) => ({
