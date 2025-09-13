@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useSessionStore } from '../store/session'
+import { useState, useEffect } from 'react'
 import { useWindowStore } from '../store/windows'
 import { StartMenu } from './StartMenu'
 
@@ -21,53 +20,41 @@ export function Taskbar() {
     })
   }
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      month: 'numeric',
-      day: 'numeric',
-      year: 'numeric'
-    })
-  }
-
   return (
     <>
       {/* Taskbar */}
-      <div className="fixed bottom-0 left-0 right-0 h-8 z-50" 
-           style={{
-             background: 'linear-gradient(to bottom, #4582ff 0%, #1d74f5 50%, #0e5395 100%)',
-             border: '1px solid #003d7a',
-             borderBottom: 'none'
-           }}>
+      <div className="fixed bottom-0 left-0 right-0 z-50 grad-taskbar taskbar">
         <div className="flex items-center h-full">
           {/* Start Button */}
           <button
             onClick={() => setShowStartMenu(!showStartMenu)}
-            className="flex items-center h-full px-4 text-white font-bold text-sm hover:bg-white hover:bg-opacity-10 transition-colors"
+            className="h-[30px] px-5 text-white font-bold text-[11px] rounded-r-[8px] border-r-2 grad-start flex items-center shadow-sm"
             style={{
-              background: showStartMenu ? 'inset 1px 1px 2px rgba(0,0,0,0.3)' : 'none',
-              border: showStartMenu ? '1px inset #8a867a' : '1px outset #ffffff'
+              fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif',
+              textShadow: '1px 1px 1px rgba(0,0,0,0.5)',
+              borderRight: '1px solid rgba(0,0,0,0.3)',
+              boxShadow: showStartMenu 
+                ? 'inset 1px 1px 3px rgba(0,0,0,0.4)' 
+                : '0 0 3px rgba(255,255,255,0.3)'
             }}
           >
-            <img 
-              src="/icons/windows-logo.png" 
-              alt="Windows" 
-              className="w-4 h-4 mr-2"
-              onError={(e) => {
-                // Fallback if image doesn't exist
-                (e.target as HTMLImageElement).style.display = 'none'
-              }}
-            />
-            <span>start</span>
+            <div className="w-5 h-5 mr-2 bg-white bg-opacity-90 rounded-sm flex items-center justify-center">
+              <span className="text-green-600 text-xs font-bold">▣</span>
+            </div>
+            <span style={{ fontStyle: 'italic' }}>Start</span>
           </button>
 
           {/* Quick Launch */}
-          <div className="flex items-center h-full px-2 border-r border-white border-opacity-30">
+          <div className="flex items-center h-full px-2 ml-2 border-l border-blue-300 border-opacity-50">
             <div className="flex space-x-1">
-              <button className="w-6 h-6 bg-white bg-opacity-20 rounded hover:bg-opacity-40">
-                <span className="text-xs">IE</span>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="Show Desktop">
+                <span>▫</span>
               </button>
-              <button className="w-6 h-6 bg-white bg-opacity-20 rounded hover:bg-opacity-40">
-                <span className="text-xs">📁</span>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="Internet Explorer">
+                <span>🌐</span>
+              </button>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="My Computer">
+                <span>💻</span>
               </button>
             </div>
           </div>
@@ -77,31 +64,35 @@ export function Taskbar() {
             {Object.values(windows).map((window: any) => (
               <button
                 key={window.id}
-                className="flex items-center px-3 py-1 mx-1 text-white text-xs bg-white bg-opacity-10 hover:bg-opacity-20 rounded border border-white border-opacity-30 max-w-40 truncate"
+                className="taskbar-btn mx-1 min-w-[120px] max-w-[160px] h-[26px] flex items-center px-2"
                 onClick={() => {
                   // Focus window logic would go here
                 }}
               >
-                <span className="truncate">{window.title}</span>
+                <span className="truncate text-[11px]">{window.title}</span>
               </button>
             ))}
           </div>
 
           {/* System Tray */}
-          <div className="flex items-center h-full px-3 border-l border-white border-opacity-30">
+          <div className="flex items-center h-full px-3 bg-blue-500 bg-opacity-20 border-l border-blue-300 border-opacity-50">
             <div className="flex items-center space-x-2">
               {/* System Icons */}
-              <div className="w-4 h-4 bg-white bg-opacity-80 rounded-sm flex items-center justify-center">
-                <span className="text-xs text-blue-600">🔊</span>
-              </div>
-              <div className="w-4 h-4 bg-white bg-opacity-80 rounded-sm flex items-center justify-center">
-                <span className="text-xs text-blue-600">📶</span>
-              </div>
+              <button className="w-4 h-4 hover:bg-white hover:bg-opacity-20 rounded" title="Volume">
+                <span className="text-[10px]">🔊</span>
+              </button>
+              <button className="w-4 h-4 hover:bg-white hover:bg-opacity-20 rounded" title="Network">
+                <span className="text-[10px]">📶</span>
+              </button>
               
               {/* Clock */}
-              <div className="text-white text-xs font-semibold px-1 leading-tight">
+              <div className="text-white px-1 cursor-default" 
+                   style={{ 
+                     fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif',
+                     fontSize: '11px',
+                     lineHeight: '1.2'
+                   }}>
                 <div>{formatTime(currentTime)}</div>
-                <div>{formatDate(currentTime)}</div>
               </div>
             </div>
           </div>

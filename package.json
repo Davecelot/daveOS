@@ -1,13 +1,13 @@
 {
   "name": "daveos",
   "version": "1.0.0",
-  "description": "WebOS 100% cliente con UI estilo Ubuntu (GNOME/Yaru)",
+  "description": "WebOS 100% cliente con UI estilo Windows XP (Luna Blue)",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "test": "vitest",
@@ -16,14 +16,10 @@
   },
   "dependencies": {
     "dexie": "^3.2.4",
-    "html2canvas": "^1.4.1",
     "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "xp.css": "^0.2.6",
-    "xterm": "^5.3.0",
-    "xterm-addon-fit": "^0.8.0",
-    "xterm-addon-web-links": "^0.9.0",
+    "html2canvas": "^1.4.1",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

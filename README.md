@@ -1,21 +1,21 @@
-# daveOS
+# daveOS XP Mode
 
-WebOS 100% cliente con UI estilo Ubuntu (GNOME/Yaru), construido con React, TypeScript y Vite.
+WebOS 100% cliente con UI estilo Windows XP (tema Luna Blue), construido con React, TypeScript y Vite.
 
 ## 🚀 Características
 
-- **UI estilo Ubuntu**: TopBar, Dock lateral, Overview con workspaces
-- **Window Manager**: Ventanas arrastrables, redimensionables con snap
-- **Sistema de Archivos**: IndexedDB con API completa (CRUD, Trash, import/export)
-- **Terminal**: xterm.js con shell simulado y comandos Unix-like
-- **Apps integradas**: Files, TextEdit, Calculator, Notes, Minesweeper y más
+- **UI estilo Windows XP Luna Blue**: Taskbar, Start Menu, ventanas con gradientes
+- **Window Manager**: Ventanas arrastrables, redimensionables, cascada/tiling
+- **Sistema de Archivos**: IndexedDB con API completa (CRUD, Recycle Bin, import/export)
+- **CMD**: xterm.js con shell simulado y comandos DOS-like
+- **Apps integradas**: Explorer, Notepad, Paint, Calculator, Minesweeper y más
 - **PWA**: Instalable y funciona offline
 - **Accesibilidad**: Navegación por teclado, ARIA, alto contraste
 
 ## 🛠️ Stack Tecnológico
 
 - **Frontend**: React 18 + TypeScript + Vite
-- **Estilos**: TailwindCSS con tokens Yaru-like
+- **Estilos**: TailwindCSS con tokens Windows XP Luna
 - **Estado**: Zustand
 - **Base de Datos**: Dexie (IndexedDB)
 - **Terminal**: xterm.js
@@ -73,13 +73,13 @@ daveOS/
 - [x] PWA básico
 - [x] Estructura de carpetas
 
-### ✅ Fase 1: Shell Básico - Ubuntu 25.04 UI
-- [x] TopBar con Activities, Clock, Quick Settings (36px altura, translúcido)
-- [x] Dock lateral con apps ancladas (68px ancho, iconos 48px, indicador naranja)
-- [x] Desktop con iconos y shortcuts
-- [x] Window Manager con CSD GNOME (HeaderBar, botones circulares)
+### ✅ Fase 1: Shell XP
+- [x] Taskbar con botón Start, Quick Launch, System Tray (32px altura)
+- [x] Start Menu de dos columnas estilo XP
+- [x] Desktop con iconos XP (My Computer, My Documents, Recycle Bin)
+- [x] Window Manager con chrome XP (titlebar con gradiente, botones min/max/close)
 - [x] Stores de Zustand
-- [x] Sistema de theming Yaru (Ubuntu Sans, tokens de color)
+- [x] Sistema de theming Luna Blue (Tahoma, gradientes y tokens XP)
 
 ### 📋 Fase 2: Sistema de Archivos
 - [ ] Schema de Dexie
@@ -88,27 +88,28 @@ daveOS/
 - [ ] Import/Export de archivos
 - [ ] Asociaciones MIME
 
-### 💻 Fase 3: Terminal
+### 💻 Fase 3: CMD
 - [ ] Integración de xterm.js
 - [ ] Parser de comandos
-- [ ] Comandos FS (ls, cd, cat, etc.)
-- [ ] Comandos de sistema (neofetch, top, etc.)
+- [x] Comando VER con banner ASCII de daveOS
+- [ ] Comandos FS (DIR, CD, TYPE, COPY, MOVE, DEL, etc.)
+- [ ] Comandos de sistema (DATE, TIME, HELP, etc.)
 - [ ] Historial y autocompletado
 
 ### 📱 Fase 4: Apps Base
-- [ ] Files (explorador de archivos)
-- [ ] TextEdit (editor de texto/Markdown)
-- [ ] Image/Video/Music viewers
+- [ ] Explorer (explorador de archivos estilo XP)
+- [ ] Notepad (editor de texto)
+- [ ] Paint (editor de imágenes 2D)
+- [ ] Windows Media Player
 - [ ] Calculator
-- [ ] Notes
-- [ ] Minesweeper
+- [ ] Minesweeper y Solitaire
 
 ### ⚙️ Fase 5: Apps Avanzadas
-- [ ] Calendar con eventos
-- [ ] Screenshot con html2canvas
-- [ ] System Monitor
-- [ ] Settings (preferencias del sistema)
-- [ ] Quick Settings y Notificaciones
+- [ ] Control Panel (categorías XP)
+- [ ] Task Manager
+- [ ] Run dialog (Win+R)
+- [ ] System Properties
+- [ ] Date and Time settings
 
 ### 🔧 Fase 6: PWA y Pulidos
 - [ ] Service Worker completo
@@ -118,45 +119,52 @@ daveOS/
 
 ## ⌨️ Atajos de Teclado
 
-- `Super` → Overview
-- `Super + 1-9` → Apps ancladas en el dock
+- `Win` → Start Menu
+- `Win + E` → My Computer
+- `Win + D` → Show Desktop
+- `Win + R` → Run dialog
 - `Alt + Tab` → Cambiar entre ventanas
-- `Alt + \`` → Cambiar entre ventanas de la misma app
-- `Ctrl + Alt + ←/→` → Cambiar workspace
-- `PrtSc` → Screenshot
-- `Ctrl + L` → Barra de direcciones (Files)
-- `Ctrl + F` → Buscar (Files)
+- `F2` → Renombrar archivo
+- `Del` → Enviar a Recycle Bin
+- `Shift + Del` → Borrar permanentemente
+- `Ctrl + C/V/X` → Copiar/Pegar/Cortar
+- `Ctrl + F` → Buscar (Explorer)
 
-## ✅ Checklist Visual Ubuntu 25.04
+## ✅ Checklist Visual Windows XP Luna Blue
 
 ### Shell UI Components
-- [x] **TopBar (36px)**: Activities, reloj/fecha 24h, indicadores de sistema (Wi-Fi, Bluetooth, sonido, batería), caret para Quick Settings
-- [x] **Dock Vertical (68px)**: Iconos 48px centrados, indicador naranja (pill redondeado) para apps activas, tooltips con flecha
-- [x] **CalendarPopover**: Grid mensual con mini-eventos, navegación por meses, eventos del día seleccionado
-- [x] **Quick Settings**: Panel flotante con tiles y sliders para Wi-Fi, Bluetooth, sonido, brillo, modo oscuro
-- [x] **Window CSD**: HeaderBar con gradiente sutil, botones circulares (amarillo/verde/rojo) estilo GNOME
+- [x] **Taskbar (32px)**: Botón Start verde con gradiente, Quick Launch, botones de ventana, System Tray con reloj
+- [x] **Start Menu**: Dos columnas (apps frecuentes | accesos sistema), header con usuario, footer con Log Off/Turn Off
+- [x] **Desktop**: Iconos alineados (My Computer, My Documents, Recycle Bin, My Network Places)
+- [x] **Window Chrome**: Titlebar con gradiente azul, botones [_][□][X], bordes 3D, sombra
+- [ ] **Explorer**: Vistas Icons/List/Details, toolbar, panel Tasks lateral, barra de direcciones
 
-### Visual Design Tokens (Yaru)
-- [x] **Colores**: Ubuntu Orange (#E95420), Aubergine (#2C001E, #5E2750, #772953)
-- [x] **Fondos**: Light (#F6F4F2), Surface (#FFFFFF, #F2F0EE), Dark (#141414, #1B1B1B, #222222)
-- [x] **Tipografía**: Ubuntu Sans (400/500/700), Ubuntu Mono para terminal
-- [x] **Sombras**: CSS Shadow (0 8px 24px rgba(0,0,0,.24))
-- [x] **Radius**: 12px border-radius estándar
+### Visual Design Tokens (Luna Blue)
+- [x] **Titlebar activo**: Gradiente #3A6EA5 → #4F8AD9 → #9DB9EB
+- [x] **Titlebar inactivo**: Gradiente #7F9DB9 → #BCCADF
+- [x] **Taskbar**: Gradiente #3B6EA5 → #245EDB
+- [x] **Start button**: Gradiente verde #7DBE45 → #37A243 → #1E8F2F
+- [x] **Superficies**: #FFFFFF (ventanas), #EDF0F5 (fondos), #FFFDF4 (menús)
+- [x] **Tipografía**: Tahoma 11px UI, Lucida Console para CMD
+- [x] **Botones 3D**: Bevel con highlight/shadow (#FFFFFF/#A0A0A0)
+- [x] **Sombras**: 0 10px 24px rgba(0,0,0,0.25)
 
-### Interacciones y Animaciones
-- [x] **Transiciones suaves**: 200-300ms duration en hover/focus
-- [x] **Escalado en hover**: Dock icons con scale-110
-- [x] **Focus rings**: Estilo accesible con color accent
-- [x] **Backdrop blur**: TopBar y Dock con blur translúcido
+### Interacciones XP
+- [x] **Hover amarillo**: #FFF1A8 en menús y listas
+- [x] **Selección azul**: #316AC5 con texto blanco
+- [x] **Botones pressed**: Inversión de bevel (inset)
+- [ ] **Animaciones mínimas**: Solo transiciones básicas
+- [ ] **Tooltips**: Fondo crema con borde negro
+- [ ] **Context menus**: Fondo blanco con sombra
 
 ## 🎨 Theming
 
-El sistema usa tokens de color inspirados en Ubuntu/Yaru:
+El sistema usa tokens de color del tema Windows XP Luna Blue:
 
-- **Colores primarios**: Ubuntu Orange (#E95420), Purple (#772953)
-- **Superficie**: Variables CSS para modo claro/oscuro  
-- **Tipografía**: Ubuntu Sans y Ubuntu Mono
-- **Sombras**: Estilo Ubuntu con múltiples niveles
+- **Colores primarios**: Luna Blue (#316AC5), Start Green (#37A243)
+- **Gradientes**: Titlebar activo/inactivo, taskbar, botones
+- **Tipografía**: Tahoma para UI, Lucida Console para CMD
+- **Efectos 3D**: Bordes bevel, sombras, highlight/shadow
 
 ## 🔧 Configuración de Desarrollo
 
@@ -222,4 +230,16 @@ MIT License - Ver archivo LICENSE para más detalles.
 
 ---
 
-**daveOS** - Un WebOS moderno inspirado en Ubuntu, construido con tecnologías web.
+**daveOS XP Mode** - Un WebOS nostálgico con UI Windows XP Luna, construido con tecnologías web modernas.
+
+## 🎯 Definición de Completado (Windows XP)
+
+- ✅ Start/Taskbar/QuickLaunch/Tray replican layout/estados XP
+- ✅ Ventanas con titlebar degradada, botones y bordes XP
+- ✅ Desktop con iconos clásicos XP
+- ✅ Comando `ver` muestra banner ASCII de daveOS
+- ⏳ Explorer con vistas y panel Tasks
+- ⏳ Alt+Tab + Cascade/Tile operativos
+- ⏳ FS CRUD + Recycle Bin + import/export
+- ⏳ CMD funcional con comandos DOS
+- ⏳ PWA instalable y usable offline

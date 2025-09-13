@@ -8,6 +8,7 @@ import { Overview } from './system/ui/Overview';
 import { WindowManager } from './system/wm/Window';
 import { ToastContainer } from './system/ui/ToastContainer';
 import { initializeDemoNotifications } from './system/demo/NotificationDemo';
+import { WindowXP } from './system/ui/WindowXP';
 import './styles/tailwind.css';
 
 function App() {
@@ -119,6 +120,17 @@ function App() {
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
       <Desktop />
+      {/* XP sample window */}
+      <WindowXP title="About daveOS XP Mode" initialPosition={{ x: 120, y: 120 }} initialSize={{ width: 480, height: 320 }}>
+        <div style={{ padding: 12, fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif', fontSize: 12 }}>
+          <p><strong>daveOS XP Mode</strong> — UI estilo Windows XP (Luna) 100% client-side.</p>
+          <ul style={{ marginTop: 8, listStyle: 'disc', paddingLeft: 18 }}>
+            <li>Taskbar + Start Menu</li>
+            <li>Ventanas con chrome XP</li>
+            <li>Desktop con iconos</li>
+          </ul>
+        </div>
+      </WindowXP>
       <Taskbar />
       <WindowManager />
       <Overview />

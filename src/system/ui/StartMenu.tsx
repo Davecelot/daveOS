@@ -1,16 +1,10 @@
-import React from 'react'
-import { useSessionStore } from '../store/session'
-import { useWindowStore } from '../store/windows'
-
 interface StartMenuProps {
   onClose: () => void
 }
 
 export function StartMenu({ onClose }: StartMenuProps) {
-  const { openWindow } = useWindowStore()
-
   const handleAppClick = (appId: string) => {
-    // TODO: Implement proper app opening
+    // TODO: Implement proper app opening using openWindow
     console.log(`Opening app: ${appId}`)
     onClose()
   }
@@ -47,45 +41,56 @@ export function StartMenu({ onClose }: StartMenuProps) {
       
       {/* Start Menu */}
       <div 
-        className="fixed bottom-8 left-0 z-50 w-96 h-96 bg-white rounded-tr-lg shadow-xl"
+        className="fixed left-0 z-50 start-menu"
         style={{
-          border: '2px outset #ece9d8',
-          background: 'linear-gradient(to right, #4a9eff 0%, #316ac5 50%, #f6f6f6 50%, #f6f6f6 100%)'
+          bottom: '32px',
+          width: '380px',
+          height: '480px',
+          borderRadius: '0 8px 0 0',
+          border: '3px solid',
+          borderImage: 'linear-gradient(135deg, #6FA1D9 0%, #316AC5 100%) 1',
+          boxShadow: '2px -2px 8px rgba(0,0,0,0.3)'
         }}
       >
         {/* Header */}
         <div 
-          className="h-16 flex items-end px-4 pb-2"
-          style={{
-            background: 'linear-gradient(to right, #4a9eff 0%, #316ac5 50%)',
-            color: 'white'
-          }}
+          className="h-16 flex items-end px-4 pb-2 grad-title-active rounded-tr-lg"
         >
           <div className="flex items-center">
-            <div className="w-12 h-12 bg-white bg-opacity-20 rounded mr-3 flex items-center justify-center">
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full mr-3 flex items-center justify-center border-2 border-white border-opacity-50">
               <span className="text-2xl">👤</span>
             </div>
-            <span className="font-bold text-lg">Administrator</span>
+            <span className="text-white font-bold text-sm" style={{
+              fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif',
+              textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+            }}>Administrator</span>
           </div>
         </div>
 
-        <div className="flex h-80">
+        <div className="flex" style={{ height: 'calc(100% - 112px)' }}>
           {/* Left Panel - Frequently Used Programs */}
-          <div className="w-48 p-2" style={{ background: '#f6f6f6' }}>
-            <div className="space-y-1">
+          <div className="w-48 px-2 py-3" style={{ background: 'var(--win-surface)' }}>
+            <div className="space-y-0">
               {leftPanelApps.map((app) => (
                 <button
                   key={app.id}
                   onClick={() => handleAppClick(app.id)}
-                  className="w-full flex items-center p-2 text-left hover:bg-blue-100 hover:border hover:border-blue-300 rounded text-xs"
+                  className="w-full flex items-center px-2 py-1 text-left hover:bg-blue-100 rounded"
+                  style={{ minHeight: '42px' }}
                 >
                   <span className="w-8 h-8 flex items-center justify-center text-lg mr-2">
                     {app.icon}
                   </span>
                   <div>
-                    <div className="font-semibold text-black">{app.name}</div>
+                    <div className="font-bold text-black" style={{
+                      fontSize: '11px',
+                      fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+                    }}>{app.name}</div>
                     {app.subtitle && (
-                      <div className="text-gray-600 text-xs">{app.subtitle}</div>
+                      <div className="text-gray-600" style={{
+                        fontSize: '10px',
+                        fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+                      }}>{app.subtitle}</div>
                     )}
                   </div>
                 </button>
@@ -93,21 +98,24 @@ export function StartMenu({ onClose }: StartMenuProps) {
             </div>
 
             {/* All Programs */}
-            <div className="mt-4 pt-2 border-t border-gray-300">
+            <div className="mt-auto pt-3 border-t border-gray-300">
               <button 
-                className="flex items-center w-full p-2 text-left hover:bg-blue-100 hover:border hover:border-blue-300 rounded text-xs"
+                className="flex items-center w-full px-2 py-2 text-left hover:bg-blue-100 rounded"
                 onClick={() => {/* Handle All Programs */}}
               >
-                <span className="w-8 h-8 flex items-center justify-center text-lg mr-2">📋</span>
-                <span className="font-semibold text-black">All Programs</span>
-                <span className="ml-auto">▶</span>
+                <span className="text-green-600 font-bold mr-2" style={{ fontSize: '14px' }}>▣</span>
+                <span className="font-bold text-green-700" style={{
+                  fontSize: '11px',
+                  fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+                }}>All Programs</span>
+                <span className="ml-auto text-black">▶</span>
               </button>
             </div>
           </div>
 
           {/* Right Panel - System Items */}
-          <div className="flex-1 p-2 bg-white">
-            <div className="space-y-1">
+          <div className="flex-1 px-3 py-3" style={{ background: '#DDE7F6' }}>
+            <div className="space-y-0">
               {rightPanelItems.map((item) => (
                 <button
                   key={item.id}
@@ -118,13 +126,17 @@ export function StartMenu({ onClose }: StartMenuProps) {
                       handleAppClick(item.id)
                     }
                   }}
-                  className="w-full flex items-center p-1 text-left hover:bg-blue-100 hover:border hover:border-blue-300 rounded text-xs"
+                  className="w-full flex items-center px-2 py-1 text-left hover:bg-blue-200 rounded"
+                  style={{ minHeight: '26px' }}
                 >
-                  <span className="w-6 h-6 flex items-center justify-center mr-2">
+                  <span className="w-5 h-5 flex items-center justify-center mr-2 text-sm">
                     {item.icon}
                   </span>
-                  <span className="text-black">{item.name}</span>
-                  {item.hasArrow && <span className="ml-auto">▶</span>}
+                  <span className="text-black" style={{
+                    fontSize: '11px',
+                    fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+                  }}>{item.name}</span>
+                  {item.hasArrow && <span className="ml-auto text-gray-600">▶</span>}
                 </button>
               ))}
             </div>
@@ -133,19 +145,26 @@ export function StartMenu({ onClose }: StartMenuProps) {
 
         {/* Footer */}
         <div 
-          className="h-8 flex items-center justify-end px-4 border-t"
-          style={{ borderColor: '#8a867a', background: 'linear-gradient(to bottom, #f1efe2, #ece9d8)' }}
+          className="h-12 flex items-center justify-end px-4 border-t grad-title-active"
         >
           <button 
-            className="flex items-center px-3 py-1 text-xs hover:bg-blue-100 hover:border hover:border-blue-300 rounded"
+            className="flex items-center px-3 py-1 text-white hover:bg-white hover:bg-opacity-20 rounded"
             onClick={() => {/* Handle Log Off */}}
+            style={{
+              fontSize: '11px',
+              fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+            }}
           >
             <span className="w-4 h-4 mr-1">🚪</span>
             Log Off
           </button>
           <button 
-            className="flex items-center px-3 py-1 ml-2 text-xs hover:bg-red-100 hover:border hover:border-red-300 rounded"
+            className="flex items-center px-3 py-1 ml-2 text-white hover:bg-white hover:bg-opacity-20 rounded"
             onClick={() => {/* Handle Turn Off Computer */}}
+            style={{
+              fontSize: '11px',
+              fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+            }}
           >
             <span className="w-4 h-4 mr-1">⏻</span>
             Turn Off Computer

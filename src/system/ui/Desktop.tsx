@@ -1,32 +1,45 @@
 export function Desktop() {
+  const desktopIcons = [
+    { id: 'my-computer', name: 'My Computer', icon: '💻', position: { x: 20, y: 20 } },
+    { id: 'my-documents', name: 'My Documents', icon: '📁', position: { x: 20, y: 100 } },
+    { id: 'recycle-bin', name: 'Recycle Bin', icon: '🗑️', position: { x: 20, y: 180 } },
+    { id: 'my-network', name: 'My Network Places', icon: '🌐', position: { x: 20, y: 260 } },
+  ]
+
   return (
     <div 
       className="absolute inset-0 w-full h-full"
       style={{
-        background: 'linear-gradient(to bottom, #4a9eff 0%, #316ac5 100%)',
+        background: 'linear-gradient(180deg, #6FA1D9 0%, #3B6EA5 60%, #245EDB 100%)'
       }}
     >
       {/* Desktop Icons */}
-      <div className="absolute" style={{ left: 20, top: 20 }}>
-        <div className="flex flex-col items-center text-white text-sm font-tahoma cursor-pointer hover:bg-blue-700 hover:bg-opacity-30 p-1 rounded">
-          <div className="text-2xl mb-1">💻</div>
-          <span>My Computer</span>
+      {desktopIcons.map((icon) => (
+        <div 
+          key={icon.id}
+          className="absolute" 
+          style={{ left: icon.position.x, top: icon.position.y }}
+        >
+          <button 
+            className="flex flex-col items-center p-2 rounded hover:bg-blue-400 hover:bg-opacity-30 focus:bg-blue-400 focus:bg-opacity-40 focus:outline-none"
+            style={{ width: '75px' }}
+            onDoubleClick={() => {
+              console.log(`Opening ${icon.name}`)
+            }}
+          >
+            <div className="w-12 h-12 flex items-center justify-center text-3xl mb-1 drop-shadow-md">
+              {icon.icon}
+            </div>
+            <span className="icon-label text-white text-center break-words select-none" 
+                  style={{
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                    fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif'
+                  }}>
+              {icon.name}
+            </span>
+          </button>
         </div>
-      </div>
-      
-      <div className="absolute" style={{ left: 20, top: 120 }}>
-        <div className="flex flex-col items-center text-white text-sm font-tahoma cursor-pointer hover:bg-blue-700 hover:bg-opacity-30 p-1 rounded">
-          <div className="text-2xl mb-1">🌐</div>
-          <span>My Network Places</span>
-        </div>
-      </div>
-      
-      <div className="absolute" style={{ left: 20, top: 220 }}>
-        <div className="flex flex-col items-center text-white text-sm font-tahoma cursor-pointer hover:bg-blue-700 hover:bg-opacity-30 p-1 rounded">
-          <div className="text-2xl mb-1">🗑️</div>
-          <span>Recycle Bin</span>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

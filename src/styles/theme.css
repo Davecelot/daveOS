@@ -1,32 +1,37 @@
 /* Windows XP Theme Tokens */
-@import url('https://fonts.googleapis.com/css2?family=Tahoma:wght@400;700&display=swap');
+/* Using system fonts: Tahoma, Segoe UI, system-ui. No external font imports needed. */
 
 :root {
-  /* Windows XP Blue Theme Colors */
-  --color-xp-blue-light: #4a9eff;
-  --color-xp-blue: #0e5395;
-  --color-xp-blue-dark: #003d7a;
-  --color-xp-blue-gradient-start: #4a9eff;
-  --color-xp-blue-gradient-end: #0e5395;
+  /* Paleta base Windows XP Luna Blue */
+  /* Titlebar activo (Luna Blue) */
+  --xp-title-blue-dark: #3A6EA5;
+  --xp-title-blue-mid: #4F8AD9;
+  --xp-title-blue-light: #9DB9EB;
+
+  /* Titlebar inactivo */
+  --xp-title-inact-dark: #7F9DB9;
+  --xp-title-inact-light: #BCCADF;
+
+  /* Taskbar + botones */
+  --xp-taskbar: #245EDB;
+  --xp-taskbar-top: #3B6EA5;
+
+  /* Botón Start (verde) */
+  --xp-start-dark: #1E8F2F;
+  --xp-start-mid: #37A243;
+  --xp-start-light: #7DBE45;
+
+  /* Superficies y bordes */
+  --win-bg: #EDF0F5;
+  --win-surface: #FFFFFF;
+  --win-border: #7F9DB9;
+  --win-text: #1A1A1A;
   
-  /* Windows XP Taskbar Colors */
-  --color-taskbar-start: #4582ff;
-  --color-taskbar-mid: #1d74f5;
-  --color-taskbar-end: #0e5395;
-  
-  /* Windows XP Window Colors */
-  --color-window-title-active: #0a47ab;
-  --color-window-title-inactive: #7a96bb;
-  --color-window-border-active: #0831d9;
-  --color-window-border-inactive: #a6c0ec;
-  --color-window-bg: #ece9d8;
-  
-  /* Windows XP Button Colors */
-  --color-button-face: #ece9d8;
-  --color-button-light: #ffffff;
-  --color-button-shadow: #aca899;
-  --color-button-dark-shadow: #716f64;
-  --color-button-highlight: #f1efe2;
+  /* Controles 3D (bevel) */
+  --btn-face: #E3E3E3;
+  --btn-light: #FFFFFF;
+  --btn-shadow: #A0A0A0;
+  --btn-dkshadow: #404040;
   
   /* Standard Colors */
   --color-white: #ffffff;
@@ -42,16 +47,38 @@
   --color-gray-800: #262626;
   --color-gray-900: #171717;
   
-  /* Windows XP specific colors */
-  --color-xp-green: #316ac5;
-  --color-xp-orange: #ff6d00;
-  --color-xp-selection: #316ac5;
-  --color-xp-selection-text: #ffffff;
-  --color-xp-menu-bg: #f6f6f6;
-  --color-xp-menu-border: #8a867a;
+  /* Selección y resaltados */
+  --xp-select: #316AC5;
+  --xp-select-text: #FFFFFF;
+  --xp-hover-yellow: #FFF1A8;
+  --xp-menu-cream: #FFFDF4;
+
+  /* Notificación, focus, sombras */
+  --focus: #9CDCFE;
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  --radius: 8px;
+  
+  /* Legacy variables expected by existing Tailwind styles */
+  --background: var(--win-bg);
+  --background-secondary: var(--win-surface);
+  --foreground: var(--win-text);
+  --foreground-muted: #525252;
+  --surface: var(--win-surface);
+  --surface-hover: #F3F3F3;
+  --surface-active: #E6E6E6;
+  --surface-border: var(--win-border);
+  --border: var(--win-border);
+  --accent: var(--xp-select);
+  --accent-hover: #2A5BAB;
+  --accent-foreground: #FFFFFF;
+  --destructive: #C84545;
+  --destructive-foreground: #FFFFFF;
+  /* RGB helpers for rgba() usage */
+  --foreground-rgb: 26, 26, 26;
+  --accent-rgb: 49, 106, 197;
   
   /* Surface colors */
-  --surface-primary: var(--color-window-bg);
+  --surface-primary: var(--win-surface);
   --surface-secondary: var(--color-gray-50);
   --surface-tertiary: var(--color-gray-100);
   --surface-inverse: var(--color-gray-900);
@@ -63,21 +90,21 @@
   --text-inverse: var(--color-white);
   
   /* Border colors */
-  --border-light: var(--color-button-shadow);
-  --border-medium: var(--color-button-dark-shadow);
+  --border-light: var(--btn-shadow);
+  --border-medium: var(--btn-dkshadow);
   --border-strong: var(--color-gray-400);
   
   /* Interactive colors */
-  --interactive-primary: var(--color-xp-blue);
-  --interactive-primary-hover: var(--color-xp-blue-dark);
-  --interactive-secondary: var(--color-button-face);
-  --interactive-secondary-hover: var(--color-button-highlight);
+  --interactive-primary: var(--xp-select);
+  --interactive-primary-hover: #2A5BAB;
+  --interactive-secondary: var(--btn-face);
+  --interactive-secondary-hover: var(--btn-light);
   
   /* Status colors */
   --status-success: #008000;
   --status-warning: #ff8c00;
   --status-error: #ff0000;
-  --status-info: var(--color-xp-blue);
+  --status-info: var(--xp-select);
   
   /* Windows XP Shadows */
   --shadow-sm: 1px 1px 0px rgb(0 0 0 / 0.25);
@@ -138,6 +165,139 @@
   --z-popover: 1060;
   --z-tooltip: 1070;
   --z-toast: 1080;
+}
+
+/* Gradientes característicos XP Luna Blue */
+.grad-title-active {
+  background: linear-gradient(180deg,
+    var(--xp-title-blue-dark) 0%,
+    var(--xp-title-blue-mid) 40%,
+    var(--xp-title-blue-light) 100%);
+}
+
+.grad-title-inactive {
+  background: linear-gradient(180deg,
+    var(--xp-title-inact-dark) 0%,
+    var(--xp-title-inact-light) 100%);
+}
+
+.grad-taskbar {
+  background: linear-gradient(180deg, 
+    var(--xp-taskbar-top) 0%, 
+    var(--xp-taskbar) 100%);
+}
+
+.grad-start {
+  background: linear-gradient(180deg, 
+    var(--xp-start-light) 0%,
+    var(--xp-start-mid) 50%,
+    var(--xp-start-dark) 100%);
+}
+
+/* Botones estilo XP */
+.btn-xp {
+  background: linear-gradient(180deg, #FEFEFE 0%, #E6E6E6 100%);
+  border: 1px solid var(--win-border);
+  box-shadow:
+    inset 1px 1px 0 var(--btn-light),
+    inset -1px -1px 0 var(--btn-shadow);
+  font-family: 'Tahoma', 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+  padding: 3px 8px;
+}
+
+.btn-xp:hover { 
+  background: linear-gradient(180deg, #FFF 0%, #F3F3F3 100%); 
+}
+
+.btn-xp:active {
+  background: linear-gradient(180deg, #E8E8E8 0%, #D7D7D7 100%);
+  box-shadow:
+    inset 1px 1px 0 var(--btn-shadow),
+    inset -1px -1px 0 var(--btn-light);
+}
+
+/* Barra de título XP */
+.titlebar {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid var(--win-border);
+  font-family: 'Tahoma', 'Segoe UI', system-ui, sans-serif;
+  font-size: 12px;
+}
+
+.titlebar.inactive { 
+  color: #234; 
+  text-shadow: none; 
+}
+
+/* Ventana estilo XP */
+.window {
+  background: var(--win-surface);
+  border: 1px solid var(--win-border);
+  box-shadow: var(--shadow);
+}
+
+/* Selección tipo XP */
+.xp-selection {
+  background: var(--xp-select);
+  color: var(--xp-select-text);
+}
+
+/* Taskbar y botones */
+.taskbar { 
+  height: 32px; 
+  border-top: 1px solid #1C4BA0; 
+}
+
+.taskbar-btn {
+  background: linear-gradient(180deg, #DDE7F6 0%, #C3D5F1 100%);
+  border: 1px solid #6281B0;
+  color: #112;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Tahoma', 'Segoe UI', system-ui, sans-serif;
+  font-size: 11px;
+}
+
+.taskbar-btn.active { 
+  background: linear-gradient(180deg, #F9FBFF 0%, #DDE7F6 100%); 
+}
+
+.taskbar-btn:hover { 
+  outline: 2px solid #FFE7A2; 
+}
+
+/* Menú Start */
+.start-menu { 
+  background: var(--xp-menu-cream); 
+  border: 1px solid var(--win-border); 
+}
+
+/* Notificaciones (toasts) */
+.toast { 
+  background: rgba(255, 255, 255, 0.92); 
+  border: 1px solid var(--win-border); 
+}
+
+/* Desktop marquee selection */
+.desktop-marquee { 
+  background: rgba(49, 106, 197, 0.25); 
+  border: 1px solid #8CAAE6; 
+}
+
+/* Icon label típico XP */
+.icon-label { 
+  font-size: 12px; 
+  line-height: 1.2; 
+  text-align: center; 
+  margin-top: 4px;
+  font-family: 'Tahoma', 'Segoe UI', system-ui, sans-serif;
 }
 
 /* High contrast theme */

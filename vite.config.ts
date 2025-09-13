@@ -13,9 +13,9 @@ export default defineConfig({
       manifest: {
         name: 'daveOS',
         short_name: 'daveOS',
-        description: 'WebOS 100% cliente con UI estilo Ubuntu',
-        theme_color: '#E95420',
-        background_color: '#2C001E',
+        description: 'WebOS 100% cliente con UI estilo Windows XP (Luna Blue)',
+        theme_color: '#3B6EA5',
+        background_color: '#EDF0F5',
         display: 'standalone',
         orientation: 'landscape-primary',
         scope: '/',
@@ -77,7 +77,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          terminal: ['xterm', 'xterm-addon-fit', 'xterm-addon-web-links'],
           db: ['dexie'],
           state: ['zustand'],
           icons: ['lucide-react']

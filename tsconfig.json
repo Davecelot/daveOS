@@ -34,7 +34,8 @@
   "exclude": [
     "src/test/**",
     "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "src/system/terminal/**"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

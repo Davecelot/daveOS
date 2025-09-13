@@ -140,7 +140,7 @@ export function Window({ window, children }: WindowProps) {
   return (
     <div
       ref={windowRef}
-      className={`fixed bg-surface overflow-hidden font-ubuntu ${window.focused ? '' : 'opacity-95'} ${window.maximized ? 'rounded-none' : 'rounded-xl'}`}
+      className={`fixed bg-surface overflow-hidden ${window.focused ? '' : 'opacity-95'} ${window.maximized ? 'rounded-none' : 'rounded-xl'}`}
       style={{
         ...windowStyle,
         boxShadow: window.maximized ? 'none' : 'var(--shadow)',
@@ -155,12 +155,14 @@ export function Window({ window, children }: WindowProps) {
         onDoubleClick={handleTitlebarDoubleClick}
         style={{
           background: window.focused 
-            ? 'linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%)'
-            : 'var(--surface-2)'
+            ? 'linear-gradient(180deg, var(--xp-title-blue-mid) 0%, var(--xp-title-blue-light) 100%)'
+            : 'linear-gradient(180deg, var(--xp-title-inact-dark) 0%, var(--xp-title-inact-light) 100%)',
+          color: window.focused ? '#fff' : '#234',
+          textShadow: window.focused ? '0 1px 0 rgba(0,0,0,.35)' : 'none'
         }}
       >
         <div className="flex items-center space-x-3 flex-1 min-w-0">
-          <span className="font-medium text-foreground truncate">{window.title}</span>
+          <span className="font-bold truncate" style={{ fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif', fontSize: 12 }}>{window.title}</span>
         </div>
         
         {/* Ubuntu GNOME style window controls (right side) */}
@@ -223,7 +225,7 @@ export function Window({ window, children }: WindowProps) {
       </div>
 
       {/* Window Content */}
-      <div className="flex-1 overflow-hidden bg-surface">
+      <div className="flex-1 overflow-hidden" style={{ background: 'var(--win-surface)' }}>
         {children}
       </div>
 

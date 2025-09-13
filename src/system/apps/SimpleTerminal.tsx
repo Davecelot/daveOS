@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSimpleFileSystemStore } from '../store/simple-filesystem';
 import { FSEntryType } from '../store/types';
+import { ver as cmdVer } from '../shell/commands/sys';
 
 interface SimpleTerminalProps {
   windowId?: string;
@@ -75,6 +76,7 @@ export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose: _onClos
           addOutput('  rm <name>     - Remove file or directory');
           addOutput('');
           addOutput('System:');
+          addOutput('  ver           - Display daveOS XP Mode version');
           addOutput('  clear         - Clear terminal screen');
           addOutput('  echo <text>   - Display text');
           addOutput('  whoami        - Display current user');
@@ -108,6 +110,10 @@ export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose: _onClos
 
         case 'date':
           addOutput(new Date().toString());
+          break;
+
+        case 'ver':
+          addOutput(cmdVer(args));
           break;
 
         case 'cat':
