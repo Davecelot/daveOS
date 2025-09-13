@@ -1,0 +1,183 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './theme.css';
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-surface;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-foreground/20 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground/30;
+  }
+  
+  /* Selection styling */
+  ::selection {
+    @apply bg-accent/20;
+  }
+  
+  /* Focus styling */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+  }
+  
+  /* Disable text selection on UI elements */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer components {
+  /* Window styling */
+  .window {
+    @apply bg-surface border border-surface-border rounded-ubuntu shadow-window;
+    @apply backdrop-blur-sm;
+  }
+  
+  .window-titlebar {
+    @apply flex items-center justify-between px-4 py-2 border-b border-surface-border;
+    @apply bg-gradient-to-r from-surface to-surface/80;
+  }
+  
+  .window-content {
+    @apply flex-1 overflow-hidden;
+  }
+  
+  /* Button variants */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-ubuntu px-4 py-2 text-sm font-medium;
+    @apply transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply btn bg-accent text-accent-foreground hover:bg-accent-hover;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-surface text-foreground hover:bg-surface-hover border border-surface-border;
+  }
+  
+  .btn-ghost {
+    @apply btn hover:bg-surface-hover;
+  }
+  
+  .btn-destructive {
+    @apply btn bg-destructive text-destructive-foreground hover:bg-destructive/90;
+  }
+  
+  /* Input styling */
+  .input {
+    @apply flex h-10 w-full rounded-ubuntu border border-surface-border bg-surface px-3 py-2 text-sm;
+    @apply placeholder:text-foreground-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  /* Card styling */
+  .card {
+    @apply rounded-ubuntu border border-surface-border bg-surface shadow-ubuntu;
+  }
+  
+  .card-header {
+    @apply flex flex-col space-y-1.5 p-6;
+  }
+  
+  .card-content {
+    @apply p-6 pt-0;
+  }
+  
+  /* Menu styling */
+  .menu {
+    @apply min-w-[8rem] overflow-hidden rounded-ubuntu border border-surface-border bg-surface p-1 shadow-ubuntu-lg;
+    @apply animate-fade-in;
+  }
+  
+  .menu-item {
+    @apply relative flex cursor-pointer select-none items-center rounded-ubuntu-sm px-2 py-1.5 text-sm;
+    @apply transition-smooth hover:bg-surface-hover focus:bg-surface-hover;
+  }
+  
+  /* Dock styling */
+  .dock {
+    @apply fixed left-0 top-0 h-full w-16 bg-surface/80 backdrop-blur-sm border-r border-surface-border;
+    @apply flex flex-col items-center py-4 z-dock;
+  }
+  
+  .dock-item {
+    @apply relative w-12 h-12 rounded-ubuntu-lg flex items-center justify-center;
+    @apply transition-smooth hover:bg-surface-hover cursor-pointer;
+  }
+  
+  .dock-indicator {
+    @apply absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-accent rounded-full;
+  }
+  
+  /* TopBar styling */
+  .topbar {
+    @apply fixed top-0 left-0 right-0 h-12 bg-surface/80 backdrop-blur-sm border-b border-surface-border;
+    @apply flex items-center justify-between px-4 z-topbar;
+  }
+  
+  /* Desktop styling */
+  .desktop {
+    @apply fixed inset-0 bg-gradient-to-br from-ubuntu-purple-dark to-ubuntu-aubergine;
+    @apply bg-cover bg-center bg-no-repeat;
+  }
+  
+  /* Notification styling */
+  .notification {
+    @apply rounded-ubuntu border border-surface-border bg-surface p-4 shadow-ubuntu-lg;
+    @apply animate-slide-down;
+  }
+  
+  /* Context menu */
+  .context-menu {
+    @apply menu z-modal;
+  }
+  
+  /* Loading spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-foreground/20 border-t-accent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .drag-none {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+}

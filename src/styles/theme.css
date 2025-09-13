@@ -1,0 +1,209 @@
+/* Ubuntu/Yaru Theme Tokens */
+:root {
+  /* Light theme */
+  --background: #FFFFFF;
+  --background-secondary: #F6F6F6;
+  --foreground: #111111;
+  --foreground-muted: #6B7280;
+  
+  --surface: #FFFFFF;
+  --surface-hover: #F3F4F6;
+  --surface-active: #E5E7EB;
+  --surface-border: #E5E7EB;
+  
+  --accent: #E95420;
+  --accent-hover: #C7431B;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  /* Ubuntu specific colors */
+  --ubuntu-orange: #E95420;
+  --ubuntu-orange-light: #F47068;
+  --ubuntu-orange-dark: #C7431B;
+  --ubuntu-purple: #772953;
+  --ubuntu-purple-light: #AEA79F;
+  --ubuntu-purple-dark: #2C001E;
+  --ubuntu-aubergine: #77216F;
+  --ubuntu-warm-grey: #AEA79F;
+  --ubuntu-cool-grey: #333333;
+}
+
+.dark {
+  /* Dark theme */
+  --background: #1A1A1A;
+  --background-secondary: #262626;
+  --foreground: #FAFAFA;
+  --foreground-muted: #A1A1AA;
+  
+  --surface: #262626;
+  --surface-hover: #404040;
+  --surface-active: #525252;
+  --surface-border: #404040;
+  
+  --accent: #E95420;
+  --accent-hover: #F47068;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+}
+
+/* High contrast theme */
+@media (prefers-contrast: high) {
+  :root {
+    --surface-border: #000000;
+    --foreground: #000000;
+  }
+  
+  .dark {
+    --surface-border: #FFFFFF;
+    --foreground: #FFFFFF;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Font size preferences */
+.font-size-small {
+  font-size: 0.875rem;
+}
+
+.font-size-normal {
+  font-size: 1rem;
+}
+
+.font-size-large {
+  font-size: 1.125rem;
+}
+
+.font-size-xl {
+  font-size: 1.25rem;
+}
+
+/* Focus indicators for keyboard navigation */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+}
+
+/* Window animations */
+@keyframes windowOpen {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes windowClose {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+}
+
+@keyframes windowMinimize {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.1) translateY(100vh);
+  }
+}
+
+.window-open {
+  animation: windowOpen 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.window-close {
+  animation: windowClose 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.window-minimize {
+  animation: windowMinimize 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dock animations */
+@keyframes dockBounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+.dock-bounce {
+  animation: dockBounce 1s ease-in-out;
+}
+
+/* Overview animations */
+@keyframes overviewZoom {
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.overview-enter {
+  animation: overviewZoom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Notification animations */
+@keyframes notificationSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.notification-enter {
+  animation: notificationSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar for dark theme */
+.dark ::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
