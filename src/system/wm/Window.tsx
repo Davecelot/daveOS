@@ -4,6 +4,14 @@ import { useWindowStore } from '../store/windows';
 import { useSessionStore } from '../store/session';
 import { useDragResize } from './useDragResize';
 import { SimpleTerminal } from '../apps/SimpleTerminal';
+import { TextEdit } from '../apps/TextEdit';
+import { Calculator } from '../apps/Calculator';
+import { FileManager } from '../apps/FileManager';
+import { Notes } from '../apps/Notes';
+import { ImageViewer } from '../apps/ImageViewer';
+import { Calendar } from '../apps/Calendar';
+import { SystemMonitor } from '../apps/SystemMonitor';
+import { Settings } from '../apps/Settings';
 import type { WindowState } from '../store/types';
 
 interface WindowProps {
@@ -289,10 +297,14 @@ function WindowContent({ windowId, appId }: { windowId: string; appId: string })
 
   const apps: Record<string, React.ComponentType<any>> = {
     terminal: SimpleTerminal,
-    textedit: TextEditor,
+    textedit: TextEdit,
     files: FileManager,
     settings: Settings,
-    calculator: () => <div className="p-4">Calculator - Coming Soon</div>
+    calculator: Calculator,
+    notes: Notes,
+    imageviewer: ImageViewer,
+    calendar: Calendar,
+    systemmonitor: SystemMonitor
   }
 
   const AppComponent = apps[appId]

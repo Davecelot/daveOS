@@ -7,6 +7,8 @@ import { Dock } from './system/ui/Dock';
 import { Desktop } from './system/ui/Desktop';
 import { Overview } from './system/ui/Overview';
 import { WindowManager } from './system/wm/Window';
+import { ToastContainer } from './system/ui/ToastContainer';
+import { NotificationDemo, initializeDemoNotifications } from './system/demo/NotificationDemo';
 import './styles/tailwind.css';
 
 function App() {
@@ -17,6 +19,9 @@ function App() {
   // Initialize filesystem and keyboard shortcuts
   useEffect(() => {
     initialize();
+    
+    // Initialize demo notifications
+    initializeDemoNotifications();
     
     const handleKeyDown = (event: KeyboardEvent) => {
       const { key, ctrlKey, altKey } = event
@@ -126,6 +131,12 @@ function App() {
       
       {/* Overview */}
       <Overview />
+      
+      {/* Toast Notifications */}
+      <ToastContainer />
+      
+      {/* Demo Notification Button (Development) */}
+      <NotificationDemo />
       
       {/* Global Styles */}
       <style jsx global>{`

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Grid3X3, Settings, Volume2, Wifi, Bluetooth, Moon, Sun, Power } from 'lucide-react'
+import { Grid3X3, Settings, Volume2, Wifi, Bluetooth, Moon, Sun, Power, Bell } from 'lucide-react'
 import { useSessionStore } from '../store/session'
 import { useSettingsStore } from '../store/settings'
+import { NotificationCenter, useNotifications } from './NotificationCenter'
 
 export function TopBar() {
   const { toggleOverview } = useSessionStore()
   const [currentTime, setCurrentTime] = useState(new Date())
   const [showQuickSettings, setShowQuickSettings] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const { getUnreadCount } = useNotifications()
 
   // Update time every second
   useEffect(() => {
@@ -62,8 +65,24 @@ export function TopBar() {
         </button>
       </div>
 
-      {/* Right Section - Quick Settings */}
+      {/* Right Section - Notifications & Quick Settings */}
       <div className="flex items-center space-x-2">
+        {/* Notifications */}
+        <div className="relative">
+          <button
+            className="p-2 hover:bg-surface-hover rounded-ubuntu transition-smooth focus-ring relative"
+            onClick={() => setShowNotifications(!showNotifications)}
+          >
+            <Bell size={16} />
+            {getUnreadCount() > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {getUnreadCount() > 9 ? '9+' : getUnreadCount()}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Quick Settings */}
         <div className="relative">
           <button
             className="p-2 hover:bg-surface-hover rounded-ubuntu transition-smooth focus-ring"
@@ -78,6 +97,12 @@ export function TopBar() {
           )}
         </div>
       </div>
+
+      {/* Notification Center */}
+      <NotificationCenter 
+        isOpen={showNotifications} 
+        onClose={() => setShowNotifications(false)} 
+      />
     </div>
   )
 }

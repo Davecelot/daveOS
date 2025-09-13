@@ -4,14 +4,15 @@ import {
   Terminal, 
   FileText, 
   Calculator, 
-  Settings,
-  Image,
-  Music,
-  Video,
-  Calendar,
-  StickyNote,
-  Gamepad2
-} from 'lucide-react'
+  Settings, 
+  Image, 
+  Music, 
+  Video, 
+  Calendar, 
+  StickyNote, 
+  Gamepad2,
+  Activity
+} from 'lucide-react';
 import { useWindowStore } from '../store/windows'
 import { useSettingsStore } from '../store/settings'
 
@@ -26,7 +27,8 @@ const APP_ICONS = {
   videoplayer: Video,
   calendar: Calendar,
   notes: StickyNote,
-  minesweeper: Gamepad2
+  minesweeper: Gamepad2,
+  systemmonitor: Activity
 }
 
 const APP_NAMES = {
@@ -40,7 +42,8 @@ const APP_NAMES = {
   videoplayer: 'Video Player',
   calendar: 'Calendar',
   notes: 'Notes',
-  minesweeper: 'Minesweeper'
+  minesweeper: 'Minesweeper',
+  systemmonitor: 'System Monitor'
 }
 
 export function Dock() {
