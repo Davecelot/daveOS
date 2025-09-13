@@ -1,5 +1,5 @@
 import Dexie, { Table } from 'dexie';
-import { FSEntry, FSEntryType, MimeType } from '../store/types';
+import { FSEntry } from '../store/types';
 
 export interface DBFSEntry extends Omit<FSEntry, 'children'> {
   parentId?: string;
@@ -33,13 +33,13 @@ export class DaveOSDatabase extends Dexie {
       mimeAssociations: '++id, mimeType, appId, isDefault'
     });
 
-    this.fsEntries.hook('creating', function (primKey, obj, trans) {
-      obj.createdAt = new Date();
-      obj.modifiedAt = new Date();
+    this.fsEntries.hook('creating', function (_primKey, obj, _trans) {
+      (obj as any).createdAt = new Date();
+      (obj as any).modifiedAt = new Date();
     });
 
-    this.fsEntries.hook('updating', function (modifications, primKey, obj, trans) {
-      modifications.modifiedAt = new Date();
+    this.fsEntries.hook('updating', function (modifications, _primKey, _obj, _trans) {
+      (modifications as any).modifiedAt = new Date();
     });
   }
 }

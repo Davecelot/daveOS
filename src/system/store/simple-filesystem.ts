@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { FSEntryType } from './types';
 import { SimpleFileSystemAPI, SimpleEntry } from '../fs/simple-api';
 
 interface SimpleFileSystemState {
@@ -77,7 +76,7 @@ export const useSimpleFileSystemStore = create<SimpleFileSystemState>()(
         set({ isLoading: true, error: null });
         
         try {
-          const entries = await SimpleFileSystemAPI.listDirectory(path);
+          const entries = await SimpleFileSystemAPI.getEntries(path);
           const { navigationHistory, historyIndex } = get();
           
           // Update navigation history

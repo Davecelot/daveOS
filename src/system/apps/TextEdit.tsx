@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Save, FileText, Undo, Redo, Search, Replace } from 'lucide-react';
+import { Save, FileText, Search } from 'lucide-react';
 import { useSimpleFileSystemStore } from '../store/simple-filesystem';
 import { FSEntryType } from '../store/types';
 
@@ -9,7 +9,7 @@ interface TextEditProps {
   onClose?: () => void;
 }
 
-export const TextEdit: React.FC<TextEditProps> = ({ windowId, filePath, onClose }) => {
+export const TextEdit: React.FC<TextEditProps> = ({ windowId: _windowId, filePath, onClose: _onClose }) => {
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('Untitled.txt');
   const [isModified, setIsModified] = useState(false);
@@ -22,7 +22,7 @@ export const TextEdit: React.FC<TextEditProps> = ({ windowId, filePath, onClose 
   const [showFindReplace, setShowFindReplace] = useState(false);
   
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { createFile, navigateTo, currentEntries } = useSimpleFileSystemStore();
+  const { createFile, navigateTo } = useSimpleFileSystemStore();
 
   // Load file content if filePath is provided
   useEffect(() => {
@@ -81,14 +81,8 @@ export const TextEdit: React.FC<TextEditProps> = ({ windowId, filePath, onClose 
     }
   };
 
-  const saveAsFile = () => {
-    const newName = prompt('Enter file name:', fileName);
-    if (newName) {
-      setFileName(newName);
-      setCurrentFilePath('');
-      saveFile();
-    }
-  };
+  // Helper to escape text for RegExp
+  const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   const newFile = () => {
     if (isModified) {
@@ -123,7 +117,8 @@ export const TextEdit: React.FC<TextEditProps> = ({ windowId, filePath, onClose 
 
   const findAndReplace = () => {
     if (findText && replaceText) {
-      const newContent = content.replaceAll(findText, replaceText);
+      const pattern = new RegExp(escapeRegExp(findText), 'g');
+      const newContent = content.replace(pattern, replaceText);
       setContent(newContent);
       setIsModified(true);
     }

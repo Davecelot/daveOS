@@ -163,7 +163,7 @@ export class CommandProcessor {
     const targetPath = this.resolvePath(args[0]);
     
     try {
-      const entries = await SimpleFileSystemAPI.getEntries(targetPath);
+      await SimpleFileSystemAPI.getEntries(targetPath);
       // If we can get entries, the path exists and is a directory
       this.currentPath = targetPath;
       this.setCurrentPath(this.currentPath);

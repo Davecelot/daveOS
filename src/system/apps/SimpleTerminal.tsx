@@ -7,7 +7,7 @@ interface SimpleTerminalProps {
   onClose?: () => void;
 }
 
-export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose }) => {
+export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose: _onClose }) => {
   const [currentPath, setCurrentPath] = useState('/home/user');
   const [output, setOutput] = useState<string[]>([
     '┌─────────────────────────────────────────┐',
@@ -24,7 +24,6 @@ export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose }) => {
   
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
-  const { currentEntries, navigateTo } = useSimpleFileSystemStore();
 
   useEffect(() => {
     if (outputRef.current) {
@@ -142,7 +141,7 @@ export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose }) => {
     const targetPath = args.length > 0 ? resolvePath(args[0]) : currentPath;
     
     try {
-      const entries = await useSimpleFileSystemStore.getState().navigateTo(targetPath);
+      await useSimpleFileSystemStore.getState().navigateTo(targetPath);
       const currentEntries = useSimpleFileSystemStore.getState().currentEntries;
       
       if (currentEntries.length === 0) {
@@ -309,7 +308,7 @@ export const SimpleTerminal: React.FC<SimpleTerminalProps> = ({ onClose }) => {
         </div>
         <span className="text-white text-sm font-medium">Terminal</span>
         <button
-          onClick={onClose}
+          onClick={_onClose}
           className="text-gray-400 hover:text-white transition-colors"
         >
           ✕

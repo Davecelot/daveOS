@@ -35,7 +35,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({ imagePath, onClose: _o
   
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { navigateTo, currentEntries } = useSimpleFileSystemStore();
+  const { navigateTo } = useSimpleFileSystemStore();
 
   // Supported image formats
   const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'];
@@ -95,7 +95,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({ imagePath, onClose: _o
     return ext ? imageExtensions.includes(ext) : false;
   };
 
-  const createImageUrl = (imageFile: any): string => {
+  const createImageUrl = (_imageFile: any): string => {
     // For demo purposes, we'll use placeholder images
     // In a real implementation, this would create a blob URL from file content
     const placeholders = [

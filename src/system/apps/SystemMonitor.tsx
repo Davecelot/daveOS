@@ -5,7 +5,6 @@ import {
   MemoryStick, 
   Wifi, 
   Battery,
-  Thermometer,
   Activity,
   RefreshCw,
   Info,
@@ -56,7 +55,7 @@ interface SystemMonitorProps {
   onClose?: () => void;
 }
 
-export const SystemMonitor: React.FC<SystemMonitorProps> = ({ onClose }) => {
+export const SystemMonitor: React.FC<SystemMonitorProps> = ({ onClose: _onClose }) => {
   const [stats, setStats] = useState<SystemStats>({
     cpu: { usage: 0, cores: 8, frequency: 2400, temperature: 45 },
     memory: { used: 0, total: 16384, available: 0, percentage: 0 },
@@ -76,7 +75,7 @@ export const SystemMonitor: React.FC<SystemMonitorProps> = ({ onClose }) => {
     upload: []
   });
   
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const intervalRef = useRef<number | null>(null);
   const maxHistoryPoints = 60;
 
   // Simulate system stats (in real implementation, this would use actual system APIs)
@@ -154,12 +153,12 @@ export const SystemMonitor: React.FC<SystemMonitorProps> = ({ onClose }) => {
     updateStats();
     
     if (autoRefresh) {
-      intervalRef.current = setInterval(updateStats, refreshInterval);
+      intervalRef.current = window.setInterval(updateStats, refreshInterval);
     }
     
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (intervalRef.current !== null) {
+        window.clearInterval(intervalRef.current);
       }
     };
   }, [autoRefresh, refreshInterval]);

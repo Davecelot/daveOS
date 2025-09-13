@@ -1,6 +1,5 @@
 import { db, DBFSEntry, DBTrashEntry } from './database';
 import { FSEntry, FSEntryType, MimeType } from '../store/types';
-import { generateId } from '../utils/id';
 
 export class FileSystemAPI {
   // Create operations
@@ -9,6 +8,7 @@ export class FileSystemAPI {
       name: entry.name,
       type: entry.type,
       path: entry.path,
+      parent: entry.parent || null,
       parentId: entry.parent || undefined,
       size: entry.size || 0,
       mimeType: entry.mimeType,
@@ -72,7 +72,7 @@ export class FileSystemAPI {
   static async getChildren(parentId: string | null): Promise<FSEntry[]> {
     const dbEntries = await db.fsEntries
       .where('parentId')
-      .equals(parentId || undefined)
+      .equals(parentId === null ? (undefined as any) : parentId)
       .toArray();
     
     return Promise.all(dbEntries.map(entry => this.dbEntryToFSEntry(entry)));

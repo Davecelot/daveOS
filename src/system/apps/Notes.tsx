@@ -16,7 +16,7 @@ interface NotesProps {
   onClose?: () => void;
 }
 
-export const Notes: React.FC<NotesProps> = ({ onClose }) => {
+export const Notes: React.FC<NotesProps> = ({ onClose: _onClose }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [isEditing, setIsEditing] = useState(false);

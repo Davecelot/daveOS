@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Search, Grid3X3 } from 'lucide-react'
 import { useSessionStore } from '../store/session'
 import { useWindowStore } from '../store/windows'
-import { useSettingsStore } from '../store/settings'
 
 export function Overview() {
   const { isOverviewOpen, closeOverview, workspaces, currentWorkspace, switchToWorkspace } = useSessionStore()
@@ -156,7 +155,6 @@ function WorkspaceThumbnail({ workspace, active, onClick }: WorkspaceThumbnailPr
 }
 
 function AppGrid({ onClose }: { onClose: () => void }) {
-  const { settings } = useSettingsStore()
   const { openWindow } = useWindowStore()
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -183,7 +181,15 @@ function AppGrid({ onClose }: { onClose: () => void }) {
       appId,
       title: apps.find(app => app.id === appId)?.name || appId,
       bounds: { x: 100, y: 100, width: 800, height: 600 },
-      workspace: 1
+      workspace: 1,
+      minimized: false,
+      maximized: false,
+      resizable: true,
+      movable: true,
+      closable: true,
+      minimizable: true,
+      maximizable: true,
+      visible: true
     })
     onClose()
   }

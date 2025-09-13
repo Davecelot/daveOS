@@ -6,17 +6,10 @@ import {
   Volume2,
   Wifi,
   Shield,
-  User,
   Bell,
   Keyboard,
-  Mouse,
   Globe,
-  Clock,
-  HardDrive,
-  Battery,
   Accessibility,
-  Download,
-  Info,
   ChevronRight,
   Save,
   RotateCcw
@@ -93,7 +86,7 @@ interface SettingsProps {
   onClose?: () => void;
 }
 
-export const Settings: React.FC<SettingsProps> = ({ onClose }) => {
+export const Settings: React.FC<SettingsProps> = ({ onClose: _onClose }) => {
   const [activeCategory, setActiveCategory] = useState('appearance');
   const [settings, setSettings] = useState<SettingsData>({
     appearance: {
