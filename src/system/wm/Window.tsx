@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import { X, Minus, Square, Maximize2 } from 'lucide-react'
-import { useDragResize, useWindowSnap } from './useDragResize'
-import { useWindowStore } from '../store/windows'
-import { useSessionStore } from '../store/session'
-import type { WindowState } from '../store/types'
+import React, { useRef, useEffect } from 'react';
+import { X, Minus, Square, Maximize2 } from 'lucide-react';
+import { useWindowStore } from '../store/windows';
+import { useSessionStore } from '../store/session';
+import { useDragResize } from './useDragResize';
+import { SimpleTerminal } from '../apps/SimpleTerminal';
+import type { WindowState } from '../store/types';
 
 interface WindowProps {
   window: WindowState
@@ -23,7 +24,20 @@ export function Window({ window, children }: WindowProps) {
     updateWindowBounds
   } = useWindowStore()
   
-  const { snapToHalf, snapToMaximize } = useWindowSnap()
+  // Window snapping functionality - simplified for now
+  const snapToHalf = (side: 'left' | 'right') => ({
+    x: side === 'left' ? 0 : globalThis.innerWidth / 2,
+    y: 0,
+    width: globalThis.innerWidth / 2,
+    height: globalThis.innerHeight
+  })
+  
+  const snapToMaximize = () => ({
+    x: 0,
+    y: 0,
+    width: globalThis.innerWidth,
+    height: globalThis.innerHeight
+  })
 
   const {
     elementRef,
@@ -68,8 +82,8 @@ export function Window({ window, children }: WindowProps) {
       const rect = windowRef.current?.getBoundingClientRect()
       if (!rect) return
 
-      const screenWidth = window.innerWidth
-      const screenHeight = window.innerHeight
+      const screenWidth = globalThis.innerWidth
+      const screenHeight = globalThis.innerHeight
       const threshold = 20
 
       // Snap to maximize if dragged to top
@@ -124,6 +138,9 @@ export function Window({ window, children }: WindowProps) {
         windowRef.current = el
         if (elementRef) {
           elementRef.current = el
+        }
+        if (el) {
+          el.style.zIndex = String(1000 + (window.zIndex || 0))
         }
       }}
       className={`window ${window.focused ? 'ring-2 ring-accent' : ''} ${
@@ -229,17 +246,53 @@ export function WindowManager() {
     </>
   )
 }
-
-// Dynamic window content loader
 function WindowContent({ windowId, appId }: { windowId: string; appId: string }) {
-  // This will be populated with actual app components later
+  // Placeholder app components
+  const TextEditor = () => (
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-4">Text Editor</h2>
+      <textarea 
+        className="w-full h-64 p-2 border rounded resize-none"
+        placeholder="Start typing..."
+      />
+    </div>
+  );
+
+  const FileManager = () => (
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-4">File Manager</h2>
+      <div className="grid grid-cols-4 gap-2">
+        {['Documents', 'Pictures', 'Music', 'Videos'].map(folder => (
+          <div key={folder} className="p-2 border rounded text-center">
+            📁 {folder}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const Settings = () => (
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-4">Settings</h2>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span>Dark Mode</span>
+          <input type="checkbox" />
+        </div>
+        <div className="flex items-center justify-between">
+          <span>Notifications</span>
+          <input type="checkbox" defaultChecked />
+        </div>
+      </div>
+    </div>
+  );
+
   const apps: Record<string, React.ComponentType<any>> = {
-    // Placeholder apps
-    files: () => <div className="p-4">Files App - Coming Soon</div>,
-    terminal: () => <div className="p-4">Terminal App - Coming Soon</div>,
-    textedit: () => <div className="p-4">Text Editor - Coming Soon</div>,
-    calculator: () => <div className="p-4">Calculator - Coming Soon</div>,
-    settings: () => <div className="p-4">Settings - Coming Soon</div>
+    terminal: SimpleTerminal,
+    textedit: TextEditor,
+    files: FileManager,
+    settings: Settings,
+    calculator: () => <div className="p-4">Calculator - Coming Soon</div>
   }
 
   const AppComponent = apps[appId]

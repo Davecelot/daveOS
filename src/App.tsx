@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react'
-import { TopBar } from './system/ui/TopBar'
-import { Dock } from './system/ui/Dock'
-import { Desktop } from './system/ui/Desktop'
-import { Overview } from './system/ui/Overview'
-import { WindowManager } from './system/wm/Window'
-import { useSettingsStore } from './system/store/settings'
-import { useSessionStore } from './system/store/session'
+import { useEffect } from 'react';
+import { useSettingsStore } from './system/store/settings';
+import { useSessionStore } from './system/store/session';
+import { useSimpleFileSystemStore } from './system/store/simple-filesystem';
+import { TopBar } from './system/ui/TopBar';
+import { Dock } from './system/ui/Dock';
+import { Desktop } from './system/ui/Desktop';
+import { Overview } from './system/ui/Overview';
+import { WindowManager } from './system/wm/Window';
+import './styles/tailwind.css';
 
 function App() {
   const { settings } = useSettingsStore()
   const { isOverviewOpen } = useSessionStore()
+  const { initialize } = useSimpleFileSystemStore()
 
-  // Initialize keyboard shortcuts
+  // Initialize filesystem and keyboard shortcuts
   useEffect(() => {
+    initialize();
+    
     const handleKeyDown = (event: KeyboardEvent) => {
-      const { key, ctrlKey, altKey, metaKey, shiftKey } = event
+      const { key, ctrlKey, altKey } = event
       
       // Super key (Windows key) for Overview
       if (key === 'Meta' || (key === 'Super')) {

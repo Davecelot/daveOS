@@ -18,6 +18,9 @@
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
   
+  /* Border alias for compatibility */
+  --border: var(--surface-border);
+  
   /* Ubuntu specific colors */
   --ubuntu-orange: #E95420;
   --ubuntu-orange-light: #F47068;
@@ -48,6 +51,9 @@
   
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
+  
+  /* Border alias for compatibility */
+  --border: var(--surface-border);
 }
 
 /* High contrast theme */

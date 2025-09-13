@@ -230,6 +230,12 @@ export interface SearchResult {
 }
 
 // Drag and drop types
+export interface DragDropState {
+  isDragging: boolean;
+  draggedItem: any;
+  dropTarget: string | null;
+}
+
 export interface DragData {
   type: 'file' | 'window' | 'app'
   data: any
@@ -241,4 +247,76 @@ export interface DropTarget {
   accepts: string[]
   onDrop: (data: DragData) => void
   onDragOver?: (data: DragData) => boolean
+}
+
+// File system types
+export enum FSEntryType {
+  FILE = 'file',
+  FOLDER = 'folder',
+  SYMLINK = 'symlink'
+}
+
+export type MimeType = 
+  // Text files
+  | 'text/plain'
+  | 'text/markdown'
+  | 'text/html'
+  | 'text/css'
+  | 'text/javascript'
+  | 'text/typescript'
+  | 'application/json'
+  | 'application/xml'
+  | 'application/yaml'
+  // Images
+  | 'image/jpeg'
+  | 'image/png'
+  | 'image/gif'
+  | 'image/svg+xml'
+  | 'image/webp'
+  | 'image/bmp'
+  // Audio
+  | 'audio/mpeg'
+  | 'audio/wav'
+  | 'audio/ogg'
+  | 'audio/mp4'
+  | 'audio/flac'
+  // Video
+  | 'video/mp4'
+  | 'video/webm'
+  | 'video/ogg'
+  | 'video/avi'
+  | 'video/mov'
+  // Documents
+  | 'application/pdf'
+  | 'application/msword'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  | 'application/vnd.ms-excel'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  // Archives
+  | 'application/zip'
+  | 'application/x-tar'
+  | 'application/gzip'
+  | 'application/x-7z-compressed'
+  // Scripts
+  | 'application/x-shellscript'
+  | 'application/x-python'
+  | 'application/x-php'
+  // System
+  | 'inode/directory'
+  | 'application/x-executable'
+  | 'application/x-desktop';
+
+export interface FSEntry {
+  id: string;
+  name: string;
+  type: FSEntryType;
+  path: string;
+  parent: string | null;
+  children?: FSEntry[];
+  size: number;
+  mimeType: MimeType;
+  content?: string;
+  metadata?: Record<string, any>;
+  createdAt: Date;
+  modifiedAt: Date;
 }

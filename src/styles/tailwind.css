@@ -5,39 +5,43 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
   
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
   /* Scrollbar styling */
   ::-webkit-scrollbar {
-    @apply w-2 h-2;
+    width: 0.5rem;
+    height: 0.5rem;
   }
   
   ::-webkit-scrollbar-track {
-    @apply bg-surface;
+    background-color: var(--surface);
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-foreground/20 rounded-full;
+    background-color: rgba(var(--foreground), 0.2);
+    border-radius: 9999px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-foreground/30;
+    background-color: rgba(var(--foreground), 0.3);
   }
   
   /* Selection styling */
   ::selection {
-    @apply bg-accent/20;
+    background-color: rgba(var(--accent), 0.2);
   }
   
   /* Focus styling */
   :focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px var(--background);
   }
   
   /* Disable text selection on UI elements */
@@ -57,114 +61,177 @@
 @layer components {
   /* Window styling */
   .window {
-    @apply bg-surface border border-surface-border rounded-ubuntu shadow-window;
-    @apply backdrop-blur-sm;
+    background-color: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
   }
   
   .window-titlebar {
-    @apply flex items-center justify-between px-4 py-2 border-b border-surface-border;
-    @apply bg-gradient-to-r from-surface to-surface/80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--surface-border);
+    background: linear-gradient(to right, var(--surface), rgba(var(--surface), 0.8));
   }
   
   .window-content {
-    @apply flex-1 overflow-hidden;
+    flex: 1;
+    overflow: hidden;
   }
   
   /* Button variants */
   .btn {
-    @apply inline-flex items-center justify-center rounded-ubuntu px-4 py-2 text-sm font-medium;
-    @apply transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent;
-    @apply disabled:pointer-events-none disabled:opacity-50;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  
+  .btn:disabled {
+    pointer-events: none;
+    opacity: 0.5;
   }
   
   .btn-primary {
-    @apply btn bg-accent text-accent-foreground hover:bg-accent-hover;
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
   }
   
   .btn-secondary {
-    @apply btn bg-surface text-foreground hover:bg-surface-hover border border-surface-border;
+    background-color: var(--surface);
+    color: var(--foreground);
+    border: 1px solid var(--surface-border);
   }
   
-  .btn-ghost {
-    @apply btn hover:bg-surface-hover;
+  .btn-secondary:hover {
+    background-color: var(--surface-hover);
+  }
+  
+  .btn-ghost:hover {
+    background-color: var(--surface-hover);
   }
   
   .btn-destructive {
-    @apply btn bg-destructive text-destructive-foreground hover:bg-destructive/90;
+    background-color: var(--destructive);
+    color: var(--destructive-foreground);
+  }
+  
+  .btn-destructive:hover {
+    background-color: rgba(var(--destructive), 0.9);
   }
   
   /* Input styling */
   .input {
-    @apply flex h-10 w-full rounded-ubuntu border border-surface-border bg-surface px-3 py-2 text-sm;
-    @apply placeholder:text-foreground-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent;
-    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    display: flex;
+    height: 2.5rem;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--surface-border);
+    background-color: var(--surface);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
   }
   
-  /* Card styling */
-  .card {
-    @apply rounded-ubuntu border border-surface-border bg-surface shadow-ubuntu;
+  .input::placeholder {
+    color: var(--foreground-muted);
   }
   
-  .card-header {
-    @apply flex flex-col space-y-1.5 p-6;
+  .input:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
   }
   
-  .card-content {
-    @apply p-6 pt-0;
-  }
-  
-  /* Menu styling */
-  .menu {
-    @apply min-w-[8rem] overflow-hidden rounded-ubuntu border border-surface-border bg-surface p-1 shadow-ubuntu-lg;
-    @apply animate-fade-in;
-  }
-  
-  .menu-item {
-    @apply relative flex cursor-pointer select-none items-center rounded-ubuntu-sm px-2 py-1.5 text-sm;
-    @apply transition-smooth hover:bg-surface-hover focus:bg-surface-hover;
+  .input:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
   
   /* Dock styling */
   .dock {
-    @apply fixed left-0 top-0 h-full w-16 bg-surface/80 backdrop-blur-sm border-r border-surface-border;
-    @apply flex flex-col items-center py-4 z-dock;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 4rem;
+    background-color: rgba(var(--surface), 0.8);
+    backdrop-filter: blur(4px);
+    border-right: 1px solid var(--surface-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    z-index: 40;
   }
   
   .dock-item {
-    @apply relative w-12 h-12 rounded-ubuntu-lg flex items-center justify-center;
-    @apply transition-smooth hover:bg-surface-hover cursor-pointer;
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  
+  .dock-item:hover {
+    background-color: var(--surface-hover);
   }
   
   .dock-indicator {
-    @apply absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-accent rounded-full;
+    position: absolute;
+    right: -0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.25rem;
+    height: 1.5rem;
+    background-color: var(--accent);
+    border-radius: 9999px;
   }
   
   /* TopBar styling */
   .topbar {
-    @apply fixed top-0 left-0 right-0 h-12 bg-surface/80 backdrop-blur-sm border-b border-surface-border;
-    @apply flex items-center justify-between px-4 z-topbar;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3rem;
+    background-color: rgba(var(--surface), 0.8);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--surface-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    z-index: 50;
   }
   
   /* Desktop styling */
   .desktop {
-    @apply fixed inset-0 bg-gradient-to-br from-ubuntu-purple-dark to-ubuntu-aubergine;
-    @apply bg-cover bg-center bg-no-repeat;
-  }
-  
-  /* Notification styling */
-  .notification {
-    @apply rounded-ubuntu border border-surface-border bg-surface p-4 shadow-ubuntu-lg;
-    @apply animate-slide-down;
-  }
-  
-  /* Context menu */
-  .context-menu {
-    @apply menu z-modal;
-  }
-  
-  /* Loading spinner */
-  .spinner {
-    @apply animate-spin rounded-full border-2 border-foreground/20 border-t-accent;
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom right, #2C001E, #77216F);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 
@@ -175,9 +242,7 @@
   
   .drag-none {
     -webkit-user-drag: none;
-    -khtml-user-drag: none;
     -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
+    user-select: none;
   }
 }

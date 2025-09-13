@@ -46,6 +46,9 @@ export default {
           DEFAULT: 'var(--destructive)',
           foreground: 'var(--destructive-foreground)',
         },
+        border: {
+          DEFAULT: 'var(--border)',
+        },
       },
       borderRadius: {
         'ubuntu': '8px',
