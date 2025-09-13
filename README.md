@@ -175,6 +175,30 @@ El sistema usa tokens de color inspirados en Ubuntu/Yaru:
    npm run prepare
    ```
 
+## 🚀 Deployment
+
+### Netlify (Recomendado)
+daveOS está configurado para deployment automático en Netlify:
+
+1. **Fork el repositorio** en tu cuenta de GitHub
+2. **Conecta con Netlify**: [netlify.com](https://netlify.com) → "New site from Git"
+3. **Configurar el site**:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+   - Node version: `18`
+4. **Deploy automático**: Cada push a `master` despliega automáticamente
+
+### Variables de Entorno (GitHub Secrets)
+Para GitHub Actions, configurar:
+```
+NETLIFY_SITE_ID=tu-site-id
+NETLIFY_AUTH_TOKEN=tu-auth-token
+```
+
+### URLs de Ejemplo
+- 🌐 **Producción**: `https://daveos.netlify.app`
+- 🔍 **Preview**: Automático en cada PR
+
 ## 📱 PWA
 
 La aplicación es una PWA completa:
@@ -182,6 +206,7 @@ La aplicación es una PWA completa:
 - Funciona offline
 - Service Worker con cache inteligente
 - Manifest con iconos y configuración
+- Cache de Google Fonts automático
 
 ## 🧪 Testing
 

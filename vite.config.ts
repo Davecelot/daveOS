@@ -72,15 +72,21 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           terminal: ['xterm', 'xterm-addon-fit', 'xterm-addon-web-links'],
           db: ['dexie'],
-          state: ['zustand']
+          state: ['zustand'],
+          icons: ['lucide-react']
         }
       }
     }
+  },
+  // Optimize for production
+  define: {
+    __DEV__: false
   }
 })
