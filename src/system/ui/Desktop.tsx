@@ -144,8 +144,7 @@ export function Desktop() {
   return (
     <div
       ref={desktopRef}
-      className="desktop"
-      style={desktopStyle}
+      className="fixed inset-0 bg-gradient-to-br from-purple-900 via-purple-800 to-orange-600 -z-10"
       onClick={handleDesktopClick}
       onMouseDown={handleDesktopMouseDown}
       onMouseMove={handleDesktopMouseMove}

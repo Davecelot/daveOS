@@ -85,7 +85,15 @@ export function Dock() {
       appId,
       title: APP_NAMES[appId as keyof typeof APP_NAMES] || appId,
       bounds: { x: 100, y: 100, width: 800, height: 600 },
-      workspace: 1
+      workspace: 1,
+      minimized: false,
+      maximized: false,
+      resizable: true,
+      movable: true,
+      closable: true,
+      minimizable: true,
+      maximizable: true,
+      visible: true
     })
   }
 
@@ -102,8 +110,8 @@ export function Dock() {
   const dockClasses = `dock ${settings.dock.autoHide ? 'dock-auto-hide' : ''}`
 
   return (
-    <div className={dockClasses}>
-      <div className="flex flex-col space-y-2">
+    <div className="fixed left-0 top-8 bottom-0 w-16 bg-black bg-opacity-60 backdrop-blur-sm flex flex-col items-center py-4 space-y-2 z-40">
+      <div className="flex flex-col items-center space-y-2">
         {settings.dock.pinnedApps.map((appId) => {
           const IconComponent = APP_ICONS[appId as keyof typeof APP_ICONS]
           const isRunning = isAppRunning(appId)
@@ -112,7 +120,7 @@ export function Dock() {
           return (
             <div key={appId} className="relative">
               <button
-                className={`dock-item group ${isHovered ? 'scale-110' : ''} transition-transform duration-200`}
+                className={`w-12 h-12 flex items-center justify-center rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 ${isHovered ? 'scale-110' : ''} ${isRunning ? 'bg-white bg-opacity-10' : ''}`}
                 onClick={(e) => handleAppClick(appId, e)}
                 onContextMenu={(e) => handleContextMenu(appId, e)}
                 onMouseEnter={() => setHoveredApp(appId)}
@@ -122,7 +130,7 @@ export function Dock() {
                 {IconComponent && (
                   <IconComponent 
                     size={24} 
-                    className={`transition-smooth ${isRunning ? 'text-accent' : 'text-foreground'}`}
+                    className={`transition-colors ${isRunning ? 'text-orange-400' : 'text-white'}`}
                   />
                 )}
                 
@@ -132,7 +140,7 @@ export function Dock() {
 
               {/* Tooltip */}
               {isHovered && (
-                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-surface border border-surface-border rounded-ubuntu px-2 py-1 text-sm whitespace-nowrap shadow-ubuntu z-tooltip animate-fade-in">
+                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white rounded px-2 py-1 text-sm whitespace-nowrap shadow-lg z-50">
                   {APP_NAMES[appId as keyof typeof APP_NAMES]}
                 </div>
               )}

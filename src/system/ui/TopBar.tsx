@@ -43,11 +43,11 @@ export function TopBar() {
   }
 
   return (
-    <div className="topbar">
+    <div className="fixed top-0 left-0 right-0 h-8 bg-black bg-opacity-60 backdrop-blur-sm text-white flex items-center justify-between px-4 z-50 text-sm">
       {/* Left Section - Activities */}
       <div className="flex items-center">
         <button
-          className="px-4 py-2 text-sm font-medium hover:bg-surface-hover rounded-ubuntu transition-smooth focus-ring"
+          className="px-3 py-1 text-sm font-medium hover:bg-white hover:bg-opacity-20 rounded transition-colors"
           onClick={toggleOverview}
         >
           Activities
@@ -57,11 +57,11 @@ export function TopBar() {
       {/* Center Section - Clock */}
       <div className="flex items-center space-x-2">
         <button
-          className="text-center hover:bg-surface-hover rounded-ubuntu px-3 py-1 transition-smooth focus-ring"
+          className="text-center hover:bg-white hover:bg-opacity-20 rounded px-3 py-1 transition-colors"
           onClick={() => {/* TODO: Open calendar */}}
         >
           <div className="text-sm font-medium">{formatTime(currentTime)}</div>
-          <div className="text-xs text-foreground-muted">{formatDate(currentTime)}</div>
+          <div className="text-xs opacity-75">{formatDate(currentTime)}</div>
         </button>
       </div>
 
@@ -70,7 +70,7 @@ export function TopBar() {
         {/* Notifications */}
         <div className="relative">
           <button
-            className="p-2 hover:bg-surface-hover rounded-ubuntu transition-smooth focus-ring relative"
+            className="p-2 hover:bg-white hover:bg-opacity-20 rounded transition-colors relative"
             onClick={() => setShowNotifications(!showNotifications)}
           >
             <Bell size={16} />
@@ -83,19 +83,17 @@ export function TopBar() {
         </div>
 
         {/* Quick Settings */}
-        <div className="relative">
-          <button
-            className="p-2 hover:bg-surface-hover rounded-ubuntu transition-smooth focus-ring"
-            onClick={() => setShowQuickSettings(!showQuickSettings)}
-          >
-            <Settings size={16} />
-          </button>
+        <button
+          className="p-2 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+          onClick={() => setShowQuickSettings(!showQuickSettings)}
+        >
+          <Settings size={16} />
+        </button>
 
-          {/* Quick Settings Panel */}
-          {showQuickSettings && (
-            <QuickSettingsPanel onClose={() => setShowQuickSettings(false)} />
-          )}
-        </div>
+        {/* Quick Settings Panel */}
+        {showQuickSettings && (
+          <QuickSettingsPanel onClose={() => setShowQuickSettings(false)} />
+        )}
       </div>
 
       {/* Notification Center */}

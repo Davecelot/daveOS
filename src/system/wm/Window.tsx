@@ -3,15 +3,15 @@ import { X, Minus, Square, Maximize2 } from 'lucide-react';
 import { useWindowStore } from '../store/windows';
 import { useSessionStore } from '../store/session';
 import { useDragResize } from './useDragResize';
-import { SimpleTerminal } from '../apps/SimpleTerminal';
+import { FileManager } from '../apps/FileManager';
 import { TextEdit } from '../apps/TextEdit';
 import { Calculator } from '../apps/Calculator';
-import { FileManager } from '../apps/FileManager';
 import { Notes } from '../apps/Notes';
 import { ImageViewer } from '../apps/ImageViewer';
+import { Settings } from '../apps/Settings';
 import { Calendar } from '../apps/Calendar';
 import { SystemMonitor } from '../apps/SystemMonitor';
-import { Settings } from '../apps/Settings';
+import { SimpleTerminal } from '../apps/SimpleTerminal';
 import type { WindowState } from '../store/types';
 
 interface WindowProps {
@@ -142,24 +142,14 @@ export function Window({ window, children }: WindowProps) {
 
   return (
     <div
-      ref={(el) => {
-        windowRef.current = el
-        if (elementRef) {
-          elementRef.current = el
-        }
-        if (el) {
-          el.style.zIndex = String(1000 + (window.zIndex || 0))
-        }
-      }}
-      className={`window ${window.focused ? 'ring-2 ring-accent' : ''} ${
-        isDragging || isResizing ? 'select-none' : ''
-      }`}
+      ref={windowRef}
+      className={`fixed bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden ${window.focused ? 'ring-2 ring-orange-400' : ''} ${window.maximized ? 'rounded-none' : ''}`}
       style={windowStyle}
-      onClick={handleWindowClick}
+      onMouseDown={handleWindowClick}
     >
       {/* Window Titlebar */}
       <div
-        className="window-titlebar cursor-move"
+        className="bg-gray-100 border-b border-gray-200 px-4 py-2 flex items-center justify-between cursor-move select-none"
         onMouseDown={window.movable ? handleMouseDown : undefined}
         onDoubleClick={handleTitlebarDoubleClick}
       >
@@ -217,7 +207,7 @@ export function Window({ window, children }: WindowProps) {
       </div>
 
       {/* Window Content */}
-      <div className="window-content flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden bg-white">
         {children}
       </div>
 

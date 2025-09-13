@@ -8,7 +8,7 @@ import { Desktop } from './system/ui/Desktop';
 import { Overview } from './system/ui/Overview';
 import { WindowManager } from './system/wm/Window';
 import { ToastContainer } from './system/ui/ToastContainer';
-import { NotificationDemo, initializeDemoNotifications } from './system/demo/NotificationDemo';
+import { initializeDemoNotifications } from './system/demo/NotificationDemo';
 import './styles/tailwind.css';
 
 function App() {
@@ -135,11 +135,8 @@ function App() {
       {/* Toast Notifications */}
       <ToastContainer />
       
-      {/* Demo Notification Button (Development) */}
-      <NotificationDemo />
-      
       {/* Global Styles */}
-      <style jsx global>{`
+      <style>{`
         /* Custom scrollbar styles */
         .slider {
           background: linear-gradient(to right, var(--accent) 0%, var(--accent) ${
