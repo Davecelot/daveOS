@@ -195,12 +195,14 @@ export class MimeTypeManager {
 
       console.log('Initializing default MIME associations...');
 
-      const associations: Omit<DBMimeAssociation, 'id'>[] = [];
+      const associations: DBMimeAssociation[] = [];
 
-      for (const [mimeType, appIds] of Object.entries(this.defaultAssociations)) {
+      for (const [mimeTypeKey, appIds] of Object.entries(this.defaultAssociations)) {
+        const mimeType = mimeTypeKey as MimeType;
         appIds.forEach((appId, index) => {
           associations.push({
-            mimeType: mimeType as MimeType,
+            id: `${mimeType}-${appId}`,
+            mimeType,
             appId,
             isDefault: index === 0 // First app is default
           });
@@ -268,10 +270,11 @@ export class MimeTypeManager {
           await db.mimeAssociations.update(existing.id!, { isDefault: true });
         } else {
           await db.mimeAssociations.add({
+            id: `${mimeType}-${appId}`,
             mimeType,
             appId,
             isDefault: true
-          } as DBMimeAssociation);
+          });
         }
       });
 
@@ -294,10 +297,11 @@ export class MimeTypeManager {
       }
 
       await db.mimeAssociations.add({
+        id: `${mimeType}-${appId}`,
         mimeType,
         appId,
         isDefault
-      } as DBMimeAssociation);
+      });
 
       return true;
     } catch (error) {

@@ -254,7 +254,7 @@ export const useSessionStore = create<SessionStore>()(
         return workspace?.windows || []
       },
 
-      canDeleteWorkspace: (workspaceId) => {
+      canDeleteWorkspace: (_workspaceId: number) => {
         const { workspaces } = get()
         return workspaces.length > 1 // Always keep at least one workspace
       }

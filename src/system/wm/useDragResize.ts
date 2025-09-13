@@ -167,7 +167,7 @@ export function useDragResize({
     } else if (dragState.isResizing && dragState.resizeHandle) {
       // Handle resizing
       const handle = dragState.resizeHandle
-      let newBounds = { ...dragState.initialBounds }
+      const newBounds = { ...dragState.initialBounds }
 
       // Apply resize based on handle
       if (handle.includes('n')) {

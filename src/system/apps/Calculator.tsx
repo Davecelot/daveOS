@@ -118,37 +118,32 @@ export const Calculator: React.FC<CalculatorProps> = ({ onClose: _onClose }) => 
     setHistory(prev => [...prev.slice(-9), historyEntry]);
   };
 
-  const handleKeyPress = (event: KeyboardEvent) => {
-    const { key } = event;
-    
-    if (key >= '0' && key <= '9') {
-      inputNumber(key);
-    } else if (key === '.') {
-      inputDecimal();
-    } else if (key === '+' || key === '-') {
-      performOperation(key);
-    } else if (key === '*') {
-      performOperation('×');
-    } else if (key === '/') {
-      event.preventDefault();
-      performOperation('÷');
-    } else if (key === 'Enter' || key === '=') {
-      performEquals();
-    } else if (key === 'Escape') {
-      clear();
-    } else if (key === 'Backspace') {
-      if (display.length > 1) {
-        setDisplay(display.slice(0, -1));
-      } else {
-        setDisplay('0');
-      }
-    }
-  };
-
   useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      const { key } = event;
+      
+      if (key >= '0' && key <= '9') {
+        inputNumber(key);
+      } else if (key === '.') {
+        inputDecimal();
+      } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+        performOperation(key);
+      } else if (key === 'Enter' || key === '=') {
+        performEquals();
+      } else if (key === 'Escape' || key === 'c' || key === 'C') {
+        clear();
+      } else if (key === 'Backspace') {
+        if (display.length > 1) {
+          setDisplay(display.slice(0, -1));
+        } else {
+          setDisplay('0');
+        }
+      }
+    };
+
     document.addEventListener('keydown', handleKeyPress);
     return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [display, operation, previousValue, waitingForOperand]);
+  }, [display, operation, previousValue, waitingForOperand, inputNumber, inputDecimal, performOperation, performEquals]);
 
   const formatDisplay = (value: string) => {
     if (value.length > 12) {

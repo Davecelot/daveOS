@@ -1,7 +1,7 @@
 import Dexie, { Table } from 'dexie';
-import { FSEntry } from '../store/types';
+import { FSEntry, MimeType } from '../store/types';
 
-export interface DBFSEntry extends Omit<FSEntry, 'children'> {
+export interface DBFSEntry extends Omit<FSEntry, 'children' | 'parent'> {
   parentId?: string;
 }
 
@@ -28,9 +28,9 @@ export class DaveOSDatabase extends Dexie {
     super('DaveOSDatabase');
     
     this.version(1).stores({
-      fsEntries: '++id, name, type, parentId, path, createdAt, modifiedAt, size, mimeType',
+      fsEntries: 'id, name, type, parentId, path, createdAt, modifiedAt, size, mimeType',
       trash: '++id, deletedAt, originalPath',
-      mimeAssociations: '++id, mimeType, appId, isDefault'
+      mimeAssociations: 'id, mimeType, appId, isDefault'
     });
 
     this.fsEntries.hook('creating', function (_primKey, obj, _trans) {

@@ -174,37 +174,34 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({ imagePath, onClose: _o
     setIsDragging(false);
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case 'ArrowLeft':
-        navigateImage('prev');
-        break;
-      case 'ArrowRight':
-        navigateImage('next');
-        break;
-      case '+':
-      case '=':
-        handleZoom(25);
-        break;
-      case '-':
-        handleZoom(-25);
-        break;
-      case '0':
-        resetView();
-        break;
-      case 'f':
-        fitToWindow();
-        break;
-      case 'i':
-        setShowInfo(!showInfo);
-        break;
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          navigateImage('prev');
+          break;
+        case 'ArrowRight':
+          navigateImage('next');
+          break;
+        case '+':
+        case '=':
+          setZoom(prev => Math.min(prev + 0.1, 3));
+          break;
+        case '-':
+          setZoom(prev => Math.max(prev - 0.1, 0.1));
+          break;
+        case '0':
+          setZoom(1);
+          break;
+        case 'i':
+          setShowInfo(!showInfo);
+          break;
+      }
+    };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [zoom, currentIndex, showInfo]);
+  }, [navigateImage, showInfo]);
 
   const formatFileSize = (size?: number) => {
     if (!size) return 'Unknown';

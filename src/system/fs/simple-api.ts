@@ -38,34 +38,44 @@ export class SimpleFileSystemAPI {
 
       // Create root
       await db.fsEntries.add({
+        id: 'root',
         name: '',
         type: FSEntryType.FOLDER,
         path: '/',
+        parentId: undefined,
         size: 0,
         mimeType: 'inode/directory' as MimeType,
+        content: '',
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });
 
       // Create home structure
-      const homeId = await db.fsEntries.add({
+      await db.fsEntries.add({
+        id: 'home',
         name: 'home',
         type: FSEntryType.FOLDER,
         path: '/home',
-        parentId: '1',
+        parentId: 'root',
         size: 0,
         mimeType: 'inode/directory' as MimeType,
+        content: '',
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });
 
-      const userId = await db.fsEntries.add({
+      await db.fsEntries.add({
+        id: 'user',
         name: 'user',
         type: FSEntryType.FOLDER,
         path: '/home/user',
-        parentId: homeId.toString(),
+        parentId: 'home',
         size: 0,
         mimeType: 'inode/directory' as MimeType,
+        content: '',
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });
@@ -74,37 +84,43 @@ export class SimpleFileSystemAPI {
       const userDirs = ['Desktop', 'Documents', 'Downloads', 'Pictures', 'Music', 'Videos'];
       for (const dir of userDirs) {
         await db.fsEntries.add({
+          id: `user-${dir.toLowerCase()}`,
           name: dir,
           type: FSEntryType.FOLDER,
           path: `/home/user/${dir}`,
-          parentId: userId.toString(),
+          parentId: 'user',
           size: 0,
           mimeType: 'inode/directory' as MimeType,
+          content: '',
+          metadata: {},
           createdAt: new Date(),
           modifiedAt: new Date()
         });
       }
 
       // Create welcome file
+      const welcomeContent = `Welcome to DaveOS!
+
+A modern web-based operating system built with React and TypeScript.
+
+Features:
+- File system management
+- Built-in applications
+- Window management
+- System settings
+
+Explore and enjoy!`;
+      
       await db.fsEntries.add({
+        id: 'welcome-txt',
         name: 'Welcome.txt',
         type: FSEntryType.FILE,
         path: '/home/user/Desktop/Welcome.txt',
-        parentId: (parseInt(userId.toString()) + 1).toString(), // Desktop folder
-        size: 500,
+        parentId: 'user-desktop',
+        size: welcomeContent.length,
         mimeType: 'text/plain' as MimeType,
-        content: `Welcome to daveOS!
-
-This is a fully client-side WebOS built with modern web technologies.
-
-Features:
-- Ubuntu-style UI
-- File system with persistence
-- Window management
-- Terminal support
-- Built-in applications
-
-Explore and enjoy!`,
+        content: welcomeContent,
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });
@@ -118,7 +134,7 @@ Explore and enjoy!`,
   static async getEntries(parentPath: string = '/'): Promise<SimpleEntry[]> {
     try {
       if (parentPath === '/') {
-        return await db.fsEntries.where('parentId').equals(undefined).toArray();
+        return await db.fsEntries.where('parentId').equals('').toArray();
       }
       
       const parent = await db.fsEntries.where('path').equals(parentPath).first();
@@ -133,21 +149,24 @@ Explore and enjoy!`,
 
   static async createFolder(name: string, parentPath: string): Promise<boolean> {
     try {
-      const path = parentPath === '/' ? `/${name}` : `${parentPath}/${name}`;
-      const parent = parentPath === '/' ? null : await db.fsEntries.where('path').equals(parentPath).first();
+      const parent = await db.fsEntries.where('path').equals(parentPath).first();
+      const parentId = parent?.id?.toString();
       
-      await db.fsEntries.add({
+      const id = await db.fsEntries.add({
+        id: `folder-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         name,
         type: FSEntryType.FOLDER,
-        path,
-        parentId: parent?.id?.toString(),
+        path: `${parentPath}/${name}`,
+        parentId,
         size: 0,
         mimeType: 'inode/directory' as MimeType,
+        content: '',
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });
       
-      return true;
+      return !!id;
     } catch (error) {
       console.error('Failed to create folder:', error);
       return false;
@@ -160,6 +179,7 @@ Explore and enjoy!`,
       const parent = parentPath === '/' ? null : await db.fsEntries.where('path').equals(parentPath).first();
       
       await db.fsEntries.add({
+        id: `file-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         name,
         type: FSEntryType.FILE,
         path,
@@ -167,6 +187,7 @@ Explore and enjoy!`,
         size: content.length,
         mimeType,
         content,
+        metadata: {},
         createdAt: new Date(),
         modifiedAt: new Date()
       });

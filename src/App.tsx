@@ -71,7 +71,7 @@ function App() {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOverviewOpen])
+  }, [isOverviewOpen, initialize])
 
   // Prevent context menu on right click (we'll handle it ourselves)
   useEffect(() => {

@@ -8,7 +8,6 @@ export class FileSystemAPI {
       name: entry.name,
       type: entry.type,
       path: entry.path,
-      parent: entry.parent || null,
       parentId: entry.parent || undefined,
       size: entry.size || 0,
       mimeType: entry.mimeType,

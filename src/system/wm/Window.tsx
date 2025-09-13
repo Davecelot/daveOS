@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { X, Minus, Square, Maximize2 } from 'lucide-react';
 import { useWindowStore } from '../store/windows';
 import { useSessionStore } from '../store/session';
@@ -33,24 +33,22 @@ export function Window({ window, children }: WindowProps) {
   } = useWindowStore()
   
   // Window snapping functionality - simplified for now
-  const snapToHalf = (side: 'left' | 'right') => ({
+  const snapToHalf = useCallback((side: 'left' | 'right') => ({
     x: side === 'left' ? 0 : globalThis.innerWidth / 2,
     y: 0,
     width: globalThis.innerWidth / 2,
     height: globalThis.innerHeight
-  })
+  }), [])
   
-  const snapToMaximize = () => ({
+  const snapToMaximize = useCallback(() => ({
     x: 0,
     y: 0,
     width: globalThis.innerWidth,
     height: globalThis.innerHeight
-  })
+  }), [])
 
   const {
-    elementRef: _elementRef,
     isDragging,
-    isResizing: _isResizing,
     handleMouseDown,
     resizeHandles
   } = useDragResize({

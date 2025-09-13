@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 
 interface CalendarEvent {
@@ -130,7 +130,6 @@ export function CalendarPopover({ isOpen, onClose, anchorElement }: CalendarPopo
   }
 
   const hasEvent = (day: number) => {
-    const dayDate = new Date(year, month, day)
     return events.some(event => 
       event.date.getDate() === day &&
       event.date.getMonth() === month &&
