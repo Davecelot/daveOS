@@ -73,13 +73,13 @@ daveOS/
 - [x] PWA básico
 - [x] Estructura de carpetas
 
-### 🚧 Fase 1: Shell Básico
-- [ ] TopBar con Activities, Clock, Quick Settings
-- [ ] Dock lateral con apps ancladas
-- [ ] Desktop con iconos y shortcuts
-- [ ] Window Manager básico
-- [ ] Stores de Zustand
-- [ ] Sistema de theming
+### ✅ Fase 1: Shell Básico - Ubuntu 25.04 UI
+- [x] TopBar con Activities, Clock, Quick Settings (36px altura, translúcido)
+- [x] Dock lateral con apps ancladas (68px ancho, iconos 48px, indicador naranja)
+- [x] Desktop con iconos y shortcuts
+- [x] Window Manager con CSD GNOME (HeaderBar, botones circulares)
+- [x] Stores de Zustand
+- [x] Sistema de theming Yaru (Ubuntu Sans, tokens de color)
 
 ### 📋 Fase 2: Sistema de Archivos
 - [ ] Schema de Dexie
@@ -127,13 +127,35 @@ daveOS/
 - `Ctrl + L` → Barra de direcciones (Files)
 - `Ctrl + F` → Buscar (Files)
 
+## ✅ Checklist Visual Ubuntu 25.04
+
+### Shell UI Components
+- [x] **TopBar (36px)**: Activities, reloj/fecha 24h, indicadores de sistema (Wi-Fi, Bluetooth, sonido, batería), caret para Quick Settings
+- [x] **Dock Vertical (68px)**: Iconos 48px centrados, indicador naranja (pill redondeado) para apps activas, tooltips con flecha
+- [x] **CalendarPopover**: Grid mensual con mini-eventos, navegación por meses, eventos del día seleccionado
+- [x] **Quick Settings**: Panel flotante con tiles y sliders para Wi-Fi, Bluetooth, sonido, brillo, modo oscuro
+- [x] **Window CSD**: HeaderBar con gradiente sutil, botones circulares (amarillo/verde/rojo) estilo GNOME
+
+### Visual Design Tokens (Yaru)
+- [x] **Colores**: Ubuntu Orange (#E95420), Aubergine (#2C001E, #5E2750, #772953)
+- [x] **Fondos**: Light (#F6F4F2), Surface (#FFFFFF, #F2F0EE), Dark (#141414, #1B1B1B, #222222)
+- [x] **Tipografía**: Ubuntu Sans (400/500/700), Ubuntu Mono para terminal
+- [x] **Sombras**: CSS Shadow (0 8px 24px rgba(0,0,0,.24))
+- [x] **Radius**: 12px border-radius estándar
+
+### Interacciones y Animaciones
+- [x] **Transiciones suaves**: 200-300ms duration en hover/focus
+- [x] **Escalado en hover**: Dock icons con scale-110
+- [x] **Focus rings**: Estilo accesible con color accent
+- [x] **Backdrop blur**: TopBar y Dock con blur translúcido
+
 ## 🎨 Theming
 
 El sistema usa tokens de color inspirados en Ubuntu/Yaru:
 
 - **Colores primarios**: Ubuntu Orange (#E95420), Purple (#772953)
-- **Superficie**: Variables CSS para modo claro/oscuro
-- **Tipografía**: Ubuntu y Ubuntu Mono
+- **Superficie**: Variables CSS para modo claro/oscuro  
+- **Tipografía**: Ubuntu Sans y Ubuntu Mono
 - **Sombras**: Estilo Ubuntu con múltiples niveles
 
 ## 🔧 Configuración de Desarrollo

@@ -1,17 +1,47 @@
-/* Ubuntu/Yaru Theme Tokens */
+/* Ubuntu 25.04 Yaru Theme Tokens */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:wght@400;500;700&family=Ubuntu+Mono:wght@400;700&display=swap');
+
 :root {
+  /* Ubuntu 25.04 Yaru colors */
+  --ub-orange: #E95420;
+  --aubergine-1: #2C001E;
+  --aubergine-2: #5E2750;
+  --aubergine-3: #772953;
+  
   /* Light theme */
-  --background: #FFFFFF;
-  --background-secondary: #F6F6F6;
-  --foreground: #111111;
-  --foreground-muted: #6B7280;
+  --bg: #F6F4F2;
+  --surface: #FFFFFF;
+  --surface-2: #F2F0EE;
+  --text: #1F1F1F;
+  --muted: #5E5E5E;
+  
+  /* Dark theme variables */
+  --bg-dark: #141414;
+  --surface-dark: #1B1B1B;
+  --surface-2-dark: #222222;
+  --text-dark: #ECECEC;
+  --muted-dark: #B8B8B8;
+  
+  /* Theme accents */
+  --accent: var(--ub-orange);
+  --accent-2: var(--aubergine-3);
+  --focus: #9CDCFE;
+  
+  /* UI tokens */
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  --radius: 12px;
+  
+  /* Applied theme (light by default) */
+  --background: var(--bg);
+  --background-secondary: var(--surface-2);
+  --foreground: var(--text);
+  --foreground-muted: var(--muted);
   
   --surface: #FFFFFF;
-  --surface-hover: #F3F4F6;
+  --surface-hover: var(--surface-2);
   --surface-active: #E5E7EB;
   --surface-border: #E5E7EB;
   
-  --accent: #E95420;
   --accent-hover: #C7431B;
   --accent-foreground: #FFFFFF;
   
@@ -21,31 +51,23 @@
   /* Border alias for compatibility */
   --border: var(--surface-border);
   
-  /* Ubuntu specific colors */
-  --ubuntu-orange: #E95420;
-  --ubuntu-orange-light: #F47068;
-  --ubuntu-orange-dark: #C7431B;
-  --ubuntu-purple: #772953;
-  --ubuntu-purple-light: #AEA79F;
-  --ubuntu-purple-dark: #2C001E;
-  --ubuntu-aubergine: #77216F;
-  --ubuntu-warm-grey: #AEA79F;
-  --ubuntu-cool-grey: #333333;
+  /* Typography */
+  font-family: 'Ubuntu Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .dark {
-  /* Dark theme */
-  --background: #1A1A1A;
-  --background-secondary: #262626;
-  --foreground: #FAFAFA;
-  --foreground-muted: #A1A1AA;
+  /* Dark theme using Yaru dark variables */
+  --background: var(--bg-dark);
+  --background-secondary: var(--surface-2-dark);
+  --foreground: var(--text-dark);
+  --foreground-muted: var(--muted-dark);
   
-  --surface: #262626;
+  --surface: var(--surface-dark);
   --surface-hover: #404040;
   --surface-active: #525252;
   --surface-border: #404040;
   
-  --accent: #E95420;
+  --accent: var(--ub-orange);
   --accent-hover: #F47068;
   --accent-foreground: #FFFFFF;
   

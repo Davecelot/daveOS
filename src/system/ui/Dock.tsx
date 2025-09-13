@@ -108,8 +108,8 @@ export function Dock() {
   }
 
   return (
-    <div className="fixed left-0 top-8 bottom-0 w-16 bg-black bg-opacity-60 backdrop-blur-sm flex flex-col items-center py-4 space-y-2 z-40">
-      <div className="flex flex-col items-center space-y-2">
+    <div className="fixed left-0 top-9 bottom-0 w-16 bg-black bg-opacity-40 backdrop-blur-md flex flex-col items-center py-4 space-y-3 z-40">
+      <div className="flex flex-col items-center space-y-3">
         {settings.dock.pinnedApps.map((appId) => {
           const IconComponent = APP_ICONS[appId as keyof typeof APP_ICONS]
           const isRunning = isAppRunning(appId)
@@ -118,7 +118,7 @@ export function Dock() {
           return (
             <div key={appId} className="relative">
               <button
-                className={`w-12 h-12 flex items-center justify-center rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 ${isHovered ? 'scale-110' : ''} ${isRunning ? 'bg-white bg-opacity-10' : ''}`}
+                className={`w-12 h-12 flex items-center justify-center rounded-xl hover:bg-white hover:bg-opacity-20 transition-all duration-300 transform ${isHovered ? 'scale-110' : 'scale-100'} ${isRunning ? 'bg-white bg-opacity-10' : ''}`}
                 onClick={(e) => handleAppClick(appId, e)}
                 onContextMenu={(e) => handleContextMenu(appId, e)}
                 onMouseEnter={() => setHoveredApp(appId)}
@@ -127,19 +127,22 @@ export function Dock() {
               >
                 {IconComponent && (
                   <IconComponent 
-                    size={24} 
-                    className={`transition-colors ${isRunning ? 'text-orange-400' : 'text-white'}`}
+                    size={32} 
+                    className={`transition-colors duration-200 ${isRunning ? 'text-white' : 'text-white opacity-80'}`}
                   />
                 )}
-                
-                {/* Running indicator */}
-                {isRunning && <div className="dock-indicator" />}
               </button>
 
-              {/* Tooltip */}
+              {/* Ubuntu-style running indicator - orange pill */}
+              {isRunning && (
+                <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-orange-500 rounded-full"></div>
+              )}
+
+              {/* Ubuntu-style tooltip */}
               {isHovered && (
-                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white rounded px-2 py-1 text-sm whitespace-nowrap shadow-lg z-50">
+                <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-900 bg-opacity-95 text-white rounded-lg px-3 py-2 text-sm whitespace-nowrap shadow-xl backdrop-blur-sm z-50 border border-white border-opacity-10">
                   {APP_NAMES[appId as keyof typeof APP_NAMES]}
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900 border-r-opacity-95"></div>
                 </div>
               )}
             </div>
@@ -148,23 +151,25 @@ export function Dock() {
       </div>
 
       {/* Dock separator */}
-      <div className="w-8 h-px bg-surface-border my-4" />
+      <div className="w-8 h-px bg-white bg-opacity-20 my-4" />
 
       {/* Trash */}
       <div className="relative">
         <button
-          className="dock-item group"
+          className="w-12 h-12 flex items-center justify-center rounded-xl hover:bg-white hover:bg-opacity-20 transition-all duration-300 transform hover:scale-110"
           onClick={() => {/* TODO: Open trash */}}
           onMouseEnter={() => setHoveredApp('trash')}
           onMouseLeave={() => setHoveredApp(null)}
           title="Trash"
         >
-          <FolderOpen size={24} className="text-foreground-muted" />
+          <FolderOpen size={32} className="text-white opacity-80" />
         </button>
 
+        {/* Ubuntu-style tooltip for trash */}
         {hoveredApp === 'trash' && (
-          <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-surface border border-surface-border rounded-ubuntu px-2 py-1 text-sm whitespace-nowrap shadow-ubuntu z-tooltip animate-fade-in">
+          <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-900 bg-opacity-95 text-white rounded-lg px-3 py-2 text-sm whitespace-nowrap shadow-xl backdrop-blur-sm z-50 border border-white border-opacity-10">
             Trash
+            <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900 border-r-opacity-95"></div>
           </div>
         )}
       </div>

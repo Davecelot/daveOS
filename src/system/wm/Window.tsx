@@ -142,39 +142,51 @@ export function Window({ window, children }: WindowProps) {
   return (
     <div
       ref={windowRef}
-      className={`fixed bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden ${window.focused ? 'ring-2 ring-orange-400' : ''} ${window.maximized ? 'rounded-none' : ''}`}
-      style={windowStyle}
+      className={`fixed bg-surface overflow-hidden font-ubuntu ${window.focused ? '' : 'opacity-95'} ${window.maximized ? 'rounded-none' : 'rounded-xl'}`}
+      style={{
+        ...windowStyle,
+        boxShadow: window.maximized ? 'none' : 'var(--shadow)',
+        border: window.focused ? '1px solid rgba(233, 84, 32, 0.3)' : '1px solid var(--surface-border)'
+      }}
       onMouseDown={handleWindowClick}
     >
-      {/* Window Titlebar */}
+      {/* GNOME HeaderBar */}
       <div
-        className="bg-gray-100 border-b border-gray-200 px-4 py-2 flex items-center justify-between cursor-move select-none"
+        className={`bg-surface border-b border-surface-border px-4 py-3 flex items-center justify-between cursor-move select-none ${window.maximized ? 'rounded-none' : 'rounded-t-xl'}`}
         onMouseDown={window.movable ? handleMouseDown : undefined}
         onDoubleClick={handleTitlebarDoubleClick}
+        style={{
+          background: window.focused 
+            ? 'linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%)'
+            : 'var(--surface-2)'
+        }}
       >
-        <div className="flex items-center space-x-2 flex-1 min-w-0">
-          <span className="font-medium text-sm truncate">{window.title}</span>
+        <div className="flex items-center space-x-3 flex-1 min-w-0">
+          <span className="font-medium text-foreground truncate">{window.title}</span>
         </div>
         
-        <div className="flex items-center space-x-1">
+        {/* Ubuntu GNOME style window controls (right side) */}
+        <div className="flex items-center space-x-2">
           {/* Minimize Button */}
           {window.minimizable && (
             <button
-              className="w-6 h-6 rounded-ubuntu-sm hover:bg-surface-hover flex items-center justify-center transition-smooth"
+              className="w-7 h-7 rounded-full hover:bg-yellow-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
               onClick={(e) => {
                 e.stopPropagation()
                 minimizeWindow(window.id)
               }}
               title="Minimize"
             >
-              <Minus size={14} />
+              <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
+                <Minus size={8} className="text-yellow-900 opacity-0 group-hover:opacity-100" />
+              </div>
             </button>
           )}
           
           {/* Maximize/Restore Button */}
           {window.maximizable && (
             <button
-              className="w-6 h-6 rounded-ubuntu-sm hover:bg-surface-hover flex items-center justify-center transition-smooth"
+              className="w-7 h-7 rounded-full hover:bg-green-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
               onClick={(e) => {
                 e.stopPropagation()
                 if (window.maximized) {
@@ -185,28 +197,35 @@ export function Window({ window, children }: WindowProps) {
               }}
               title={window.maximized ? "Restore" : "Maximize"}
             >
-              {window.maximized ? <Square size={14} /> : <Maximize2 size={14} />}
+              <div className="w-3 h-3 rounded-full bg-green-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
+                {window.maximized ? 
+                  <Square size={6} className="text-green-900 opacity-0 group-hover:opacity-100" /> : 
+                  <Maximize2 size={6} className="text-green-900 opacity-0 group-hover:opacity-100" />
+                }
+              </div>
             </button>
           )}
           
           {/* Close Button */}
           {window.closable && (
             <button
-              className="w-6 h-6 rounded-ubuntu-sm hover:bg-destructive hover:text-destructive-foreground flex items-center justify-center transition-smooth"
+              className="w-7 h-7 rounded-full hover:bg-red-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
               onClick={(e) => {
                 e.stopPropagation()
                 closeWindow(window.id)
               }}
               title="Close"
             >
-              <X size={14} />
+              <div className="w-3 h-3 rounded-full bg-red-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
+                <X size={8} className="text-red-900 opacity-0 group-hover:opacity-100" />
+              </div>
             </button>
           )}
         </div>
       </div>
 
       {/* Window Content */}
-      <div className="flex-1 overflow-hidden bg-white">
+      <div className="flex-1 overflow-hidden bg-surface">
         {children}
       </div>
 

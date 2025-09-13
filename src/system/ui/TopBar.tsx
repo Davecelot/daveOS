@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { Grid3X3, Settings, Volume2, Wifi, Bluetooth, Moon, Sun, Power, Bell } from 'lucide-react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Grid3X3, Settings, Volume2, Wifi, Bluetooth, Moon, Sun, Power, Bell, Battery } from 'lucide-react'
 import { useSessionStore } from '../store/session'
 import { useSettingsStore } from '../store/settings'
 import { NotificationCenter, useNotifications } from './NotificationCenter'
+import { CalendarPopover } from './CalendarPopover'
 
 export function TopBar() {
   const { toggleOverview } = useSessionStore()
   const [currentTime, setCurrentTime] = useState(new Date())
   const [showQuickSettings, setShowQuickSettings] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
+  const [showCalendar, setShowCalendar] = useState(false)
   const { getUnreadCount } = useNotifications()
+  const clockButtonRef = useRef<HTMLButtonElement>(null)
 
   // Update time every second
   useEffect(() => {
@@ -43,11 +46,11 @@ export function TopBar() {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-8 bg-black bg-opacity-60 backdrop-blur-sm text-white flex items-center justify-between px-4 z-50 text-sm">
+    <div className="fixed top-0 left-0 right-0 h-9 bg-black bg-opacity-40 backdrop-blur-md text-white flex items-center justify-between px-4 z-50 text-sm font-ubuntu">
       {/* Left Section - Activities */}
       <div className="flex items-center">
         <button
-          className="px-3 py-1 text-sm font-medium hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+          className="px-3 py-1.5 text-sm font-medium hover:bg-white hover:bg-opacity-20 rounded-md transition-all duration-200"
           onClick={toggleOverview}
         >
           Activities
@@ -55,39 +58,57 @@ export function TopBar() {
       </div>
 
       {/* Center Section - Clock */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center relative">
         <button
-          className="text-center hover:bg-white hover:bg-opacity-20 rounded px-3 py-1 transition-colors"
-          onClick={() => {/* TODO: Open calendar */}}
+          ref={clockButtonRef}
+          className="text-center hover:bg-white hover:bg-opacity-20 rounded-md px-3 py-1.5 transition-all duration-200"
+          onClick={() => setShowCalendar(!showCalendar)}
         >
-          <div className="text-sm font-medium">{formatTime(currentTime)}</div>
-          <div className="text-xs opacity-75">{formatDate(currentTime)}</div>
+          <div className="text-sm font-medium leading-tight">{formatTime(currentTime)}</div>
+          <div className="text-xs opacity-80 leading-tight">{formatDate(currentTime)}</div>
         </button>
+        
+        {/* Calendar Popover */}
+        <CalendarPopover 
+          isOpen={showCalendar}
+          onClose={() => setShowCalendar(false)}
+          anchorElement={clockButtonRef.current}
+        />
       </div>
 
-      {/* Right Section - Notifications & Quick Settings */}
-      <div className="flex items-center space-x-2">
+      {/* Right Section - System Indicators */}
+      <div className="flex items-center space-x-1">
+        {/* System Indicators */}
+        <div className="flex items-center space-x-1 mr-2">
+          <SystemIndicator icon={<Wifi size={14} />} active={true} />
+          <SystemIndicator icon={<Bluetooth size={14} />} active={false} />
+          <SystemIndicator icon={<Volume2 size={14} />} active={true} />
+          <BatteryIndicator level={85} />
+        </div>
+
         {/* Notifications */}
         <div className="relative">
           <button
-            className="p-2 hover:bg-white hover:bg-opacity-20 rounded transition-colors relative"
+            className="p-1.5 hover:bg-white hover:bg-opacity-20 rounded-md transition-all duration-200 relative"
             onClick={() => setShowNotifications(!showNotifications)}
           >
-            <Bell size={16} />
+            <Bell size={14} />
             {getUnreadCount() > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">
                 {getUnreadCount() > 9 ? '9+' : getUnreadCount()}
               </span>
             )}
           </button>
         </div>
 
-        {/* Quick Settings */}
+        {/* Quick Settings Caret */}
         <button
-          className="p-2 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+          className="p-1.5 hover:bg-white hover:bg-opacity-20 rounded-md transition-all duration-200 text-white opacity-80 hover:opacity-100"
           onClick={() => setShowQuickSettings(!showQuickSettings)}
         >
-          <Settings size={16} />
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="currentColor">
+            <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
 
         {/* Quick Settings Panel */}
@@ -269,6 +290,30 @@ function QuickSlider({
           />
         </div>
       </div>
+    </div>
+  )
+}
+
+function SystemIndicator({ icon, active }: { icon: React.ReactNode, active: boolean }) {
+  return (
+    <div className={`p-1 transition-all duration-200 ${active ? 'text-white opacity-100' : 'text-white opacity-40'}`}>
+      {icon}
+    </div>
+  )
+}
+
+function BatteryIndicator({ level }: { level: number }) {
+  const getBatteryIcon = () => {
+    if (level > 75) return <Battery size={14} className="text-green-400" />
+    if (level > 50) return <Battery size={14} className="text-yellow-400" />
+    if (level > 25) return <Battery size={14} className="text-orange-400" />
+    return <Battery size={14} className="text-red-400" />
+  }
+
+  return (
+    <div className="flex items-center space-x-1 text-white opacity-90">
+      {getBatteryIcon()}
+      <span className="text-xs">{level}%</span>
     </div>
   )
 }
