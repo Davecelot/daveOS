@@ -109,20 +109,20 @@ export const ICON_CANDIDATES: Record<IconName, string[]> = {
 // Optional lucide-react final fallback mapping
 export const LUCIDE_FALLBACK: Partial<Record<IconName, string>> = {
   'my-computer': 'Monitor',
-  'my-documents': 'FolderKanban',
-  documents: 'FolderKanban',
+  'my-documents': 'Folder',
+  documents: 'Folder',
   'recycle-bin': 'Trash2',
   'my-network': 'Network',
   internet: 'Globe',
   search: 'Search',
-  'control-panel': 'PanelsTopLeft',
+  'control-panel': 'Settings',
   settings: 'Settings',
   run: 'Play',
   'task-manager': 'ListChecks',
   'show-desktop': 'SquareDashedBottom',
   volume: 'Volume2',
   network: 'Network',
-  pictures: 'Images',
+  pictures: 'Image',
   music: 'Music2',
   printers: 'Printer',
   email: 'Mail',
@@ -166,16 +166,16 @@ function xpCandidatesFor(key: IconName, size?: number): string[] {
   }
   switch (key) {
     case 'my-computer':
-      add('devices', 'computer.png', 'gnome-computer.png');
+      add('devices', 'computer.png', 'gnome-computer.png', 'gnome-dev-computer.png');
       break;
     case 'my-documents':
     case 'documents':
-      add('places', 'stock_folder.png', 'gnome-folder.png');
+      add('places', 'folder-documents.png', 'default-folder-documents.png', 'stock_folder.png', 'gnome-folder.png');
       break;
     case 'recycle-bin':
+      // Try action and places variants found in the theme
       add('actions', 'trash-empty.png');
-      // Also try places special icons
-      sizes.forEach(s => out.push(`winxp/places/${s}/emptytrash.png`));
+      add('places', 'emptytrash.png', 'gnome-fs-trash-empty.png', 'gnome-dev-trash-empty.png');
       break;
     case 'my-network':
       add('apps', 'preferences-system-network.png', 'network-manager.png');
@@ -184,10 +184,14 @@ function xpCandidatesFor(key: IconName, size?: number): string[] {
       add('apps', 'internet-web-browser.png');
       break;
     case 'search':
-      add('actions', 'search.png', 'stock_search.png');
+      // Prefer action names widely used across themes, and also try app-level search icons
+      add('actions', 'edit-find.png', 'gtk-find.png', 'stock_search.png', 'search.png');
+      add('apps', 'system-search.png', 'preferences-system-search.png');
       break;
     case 'control-panel':
       add('apps', 'gnome-control-center.png', 'kcontrol.png');
+      // Some themes provide control center under categories as well
+      add('categories', 'gnome-control-center.png');
       break;
     case 'settings':
       add('apps', 'preferences-system.png');
@@ -208,10 +212,11 @@ function xpCandidatesFor(key: IconName, size?: number): string[] {
       add('apps', 'preferences-system-network.png');
       break;
     case 'pictures':
-      add('places', 'folder_pictures.png');
+      // Theme uses hyphenated variant; keep underscore as fallback just in case
+      add('places', 'folder-pictures.png', 'folder_pictures.png');
       break;
     case 'music':
-      add('places', 'folder_sound.png');
+      add('places', 'folder-music.png', 'folder_sound.png');
       break;
     case 'printers':
       add('devices', 'printer.png');

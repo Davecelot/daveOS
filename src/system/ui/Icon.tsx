@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { getIconCandidates } from './icons';
 // Optional fallback: lucide-react icon set (already present in project deps)
 // If removed from deps, this import will be tree-shaken out by bundler when unused.
@@ -23,6 +23,11 @@ export const Icon: React.FC<IconProps> = ({ name, size = ICON_32, alt, className
   const candidates = useMemo(() => getIconCandidates(name, size), [name, size]);
   const [idx, setIdx] = useState(0);
 
+  // Reset index when the icon name or size changes to re-try from the first candidate
+  useEffect(() => {
+    setIdx(0);
+  }, [name, size]);
+
   // lucide fallback: a candidate formatted as "lucide:Name"
   if (candidates[idx]?.startsWith('lucide:')) {
     const compName = candidates[idx].slice('lucide:'.length) as keyof typeof lucideIcons;
@@ -34,11 +39,10 @@ export const Icon: React.FC<IconProps> = ({ name, size = ICON_32, alt, className
 
   const src = candidates[idx];
   const handleError = () => {
-    if (idx < candidates.length - 1) {
-      setIdx(idx + 1);
-    } else if (idx !== candidates.length - 1) {
-      setIdx(candidates.length - 1);
-    }
+    setIdx((prev) => {
+      if (prev < candidates.length - 1) return prev + 1;
+      return prev;
+    });
   };
 
   return (
