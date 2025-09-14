@@ -48,7 +48,7 @@ export type IconName =
   | 'minesweeper'
   | 'solitaire';
 
-export const XP_BASE = '/icons/xp/';
+export const XP_BASE = '/icons/xp-selected/';
 export const CC0_BASE = '/icons/xp-cc0/';
 
 // For dev: we don't know exact filenames in the pack; provide multiple candidates per icon.
