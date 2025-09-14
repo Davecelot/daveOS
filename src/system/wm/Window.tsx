@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { useWindowStore } from '../store/windows';
 import { useSessionStore } from '../store/session';
 import { useDragResize } from './useDragResize';
+import { Icon, ICON_16 } from '@/system/ui/Icon';
+import { appIdToIcon } from '@/system/ui/icons';
 import { FileManager } from '../apps/FileManager';
 import { TextEdit } from '../apps/TextEdit';
 import { Calculator } from '../apps/Calculator';
@@ -173,7 +175,10 @@ export function Window({ window, children }: WindowProps) {
         }}
       >
         <div className="flex items-center space-x-3 flex-1 min-w-0">
-          <span className="font-bold truncate" style={{ fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif', fontSize: 11 }}>{window.title}</span>
+          <span className="mr-1 flex-shrink-0">
+            <Icon name={appIdToIcon(window.appId)} size={ICON_16} alt={window.appId} />
+          </span>
+          <span className="font-bold truncate" style={{ fontFamily: 'Tahoma, \"Segoe UI\", system-ui, sans-serif', fontSize: 11 }}>{window.title}</span>
         </div>
         
         {/* XP window controls */}

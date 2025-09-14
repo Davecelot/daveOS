@@ -142,14 +142,180 @@ export const LUCIDE_FALLBACK: Partial<Record<IconName, string>> = {
   solitaire: 'PlayingCards',
 };
 
-export function getIconCandidates(name: IconName | string): string[] {
+// Common size buckets in the XP icon theme
+export const XP_SIZE_DIRS = [16, 22, 24, 32, 48, 64, 72, 96, 128] as const;
+
+function nearestSizes(size?: number): number[] {
+  if (!size) return [32, 24, 48, 16, 64, 72, 96, 128];
+  return [...XP_SIZE_DIRS].sort((a, b) => Math.abs(a - size) - Math.abs(b - size));
+}
+
+function xpPath(section: string, s: number, filename: string) {
+  return `winxp/${section}/${s}/${filename}`
+}
+
+function xpCandidatesFor(key: IconName, size?: number): string[] {
+  const sizes = nearestSizes(size);
+  const out: string[] = [];
+  const add = (section: string, ...names: string[]) => {
+    for (const s of sizes) {
+      for (const n of names) {
+        out.push(xpPath(section, s, n))
+      }
+    }
+  }
+  switch (key) {
+    case 'my-computer':
+      add('devices', 'computer.png', 'gnome-computer.png');
+      break;
+    case 'my-documents':
+    case 'documents':
+      add('places', 'stock_folder.png', 'gnome-folder.png');
+      break;
+    case 'recycle-bin':
+      add('actions', 'trash-empty.png');
+      // Also try places special icons
+      sizes.forEach(s => out.push(`winxp/places/${s}/emptytrash.png`));
+      break;
+    case 'my-network':
+      add('apps', 'preferences-system-network.png', 'network-manager.png');
+      break;
+    case 'internet':
+      add('apps', 'internet-web-browser.png');
+      break;
+    case 'search':
+      add('actions', 'search.png', 'stock_search.png');
+      break;
+    case 'control-panel':
+      add('apps', 'gnome-control-center.png', 'kcontrol.png');
+      break;
+    case 'settings':
+      add('apps', 'preferences-system.png');
+      break;
+    case 'run':
+      add('actions', 'system-run.png');
+      break;
+    case 'task-manager':
+      add('apps', 'gnome-system-monitor.png', 'utilities-system-monitor.png');
+      break;
+    case 'show-desktop':
+      add('places', 'desktop.png', 'org.xfce.panel.showdesktop.png');
+      break;
+    case 'volume':
+      add('apps', 'multimedia-volume-control.png');
+      break;
+    case 'network':
+      add('apps', 'preferences-system-network.png');
+      break;
+    case 'pictures':
+      add('places', 'folder_pictures.png');
+      break;
+    case 'music':
+      add('places', 'folder_sound.png');
+      break;
+    case 'printers':
+      add('devices', 'printer.png');
+      break;
+    case 'email':
+      add('apps', 'internet-mail.png');
+      break;
+    case 'folder':
+      add('places', 'stock_folder.png', 'gnome-folder.png');
+      break;
+    case 'file':
+      // generic file fallback via lucide mostly; XP theme doesn't have one single generic
+      break;
+    case 'text':
+      add('mimes', 'application-text.png');
+      break;
+    case 'image':
+      add('mimes', 'image-x-generic.png');
+      break;
+    case 'audio':
+      add('mimes', 'audio-x-generic.png');
+      break;
+    case 'video':
+      add('mimes', 'video-x-generic.png');
+      break;
+    case 'pdf':
+      add('mimes', 'application-pdf.png');
+      break;
+    case 'archive':
+      add('mimes', 'application-zip.png');
+      break;
+    case 'notepad':
+      add('apps', 'text-editor.png', 'accessories-text-editor.png');
+      break;
+    case 'paint':
+      add('apps', 'kolourpaint.png', 'mtpaint.png');
+      break;
+    case 'wmp':
+      add('apps', 'multimedia-video-player.png');
+      break;
+    case 'calculator':
+      add('apps', 'accessories-calculator.png', 'gnome-calculator.png');
+      break;
+    case 'minesweeper':
+      add('apps', 'minesweeper.png');
+      break;
+    case 'solitaire':
+      add('apps', 'solitaire.png');
+      break;
+    case 'start':
+      add('places', 'start-here.png');
+      break;
+    case 'back':
+      add('actions', 'go-previous.png');
+      break;
+    case 'forward':
+      add('actions', 'go-next.png');
+      break;
+    case 'up':
+      add('actions', 'go-up.png');
+      break;
+    case 'home':
+      add('actions', 'go-home.png');
+      break;
+    case 'refresh':
+      add('actions', 'view-refresh.png');
+      break;
+    case 'list':
+      add('actions', 'view-list.png', 'view-list-details.png');
+      break;
+    case 'grid':
+      add('actions', 'view-grid.png');
+      break;
+    case 'trash':
+      add('actions', 'edit-delete.png');
+      break;
+    case 'copy':
+      add('actions', 'edit-copy.png');
+      break;
+    case 'cut':
+      add('actions', 'edit-cut.png');
+      break;
+    case 'new-folder':
+      add('actions', 'folder-new.png');
+      break;
+    case 'new-file':
+      add('actions', 'document-new.png');
+      break;
+    case 'help':
+      add('apps', 'help-browser.png');
+      break;
+  }
+  return out.map(p => XP_BASE + p);
+}
+
+export function getIconCandidates(name: IconName | string, size?: number): string[] {
   const key = name as IconName;
+  const xp = xpCandidatesFor(key, size);
   const baseCandidates = ICON_CANDIDATES[key] || ICON_CANDIDATES['file'] || [];
-  const xp = baseCandidates.map((f) => XP_BASE + f);
+  const xpLegacy = baseCandidates.map((f) => XP_BASE + f);
   const cc0 = baseCandidates.map((f) => CC0_BASE + f);
   const lucideKey = LUCIDE_FALLBACK[key] || LUCIDE_FALLBACK['file'];
   const lucide = lucideKey ? [`lucide:${lucideKey}`] : [];
-  return [...xp, ...cc0, ...lucide];
+  return [...xp, ...xpLegacy, ...cc0, ...lucide];
 }
 
 // Helper to map appId to a default icon name for taskbar/buttons

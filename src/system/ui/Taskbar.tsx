@@ -43,7 +43,7 @@ export function Taskbar() {
             <div className="w-5 h-5 mr-2 bg-white bg-opacity-90 rounded-sm flex items-center justify-center overflow-hidden">
               <Icon name="start" size={ICON_16} alt="Start" />
             </div>
-            <span style={{ fontStyle: 'italic' }}>Start</span>
+            <span style={{ fontStyle: 'italic' }}>start</span>
           </button>
 
           {/* Quick Launch */}

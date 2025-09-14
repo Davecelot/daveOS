@@ -22,6 +22,10 @@ function App() {
     
     // Initialize demo notifications
     initializeDemoNotifications();
+    // Dev-only: check icon assets availability and log missing ones
+    if ((import.meta as any).env?.DEV) {
+      import('./system/ui/icons.dev-check').then(mod => mod.checkIconAssetsDev?.()).catch(() => {})
+    }
     
     const handleKeyDown = (event: KeyboardEvent) => {
       const { key, ctrlKey, altKey } = event

@@ -20,7 +20,7 @@ type IconProps = {
 };
 
 export const Icon: React.FC<IconProps> = ({ name, size = ICON_32, alt, className, title }) => {
-  const candidates = useMemo(() => getIconCandidates(name), [name]);
+  const candidates = useMemo(() => getIconCandidates(name, size), [name, size]);
   const [idx, setIdx] = useState(0);
 
   // lucide fallback: a candidate formatted as "lucide:Name"
