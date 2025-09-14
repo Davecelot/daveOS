@@ -70,14 +70,13 @@ export function StartMenu({ onClose }: StartMenuProps) {
 
         <div className="flex" style={{ height: 'calc(100% - 112px)' }}>
           {/* Left Panel - Frequently Used Programs */}
-          <div className="w-48 px-2 py-3" style={{ background: 'var(--win-surface)' }}>
+          <div className="w-48 px-2 py-3 start-left">
             <div className="space-y-0">
               {leftPanelApps.map((app) => (
                 <button
                   key={app.id}
                   onClick={() => handleAppClick(app.id)}
-                  className="w-full flex items-center px-2 py-1 text-left hover:bg-blue-100 rounded"
-                  style={{ minHeight: '42px' }}
+                  className="start-app"
                 >
                   <span className="w-8 h-8 flex items-center justify-center text-lg mr-2">
                     <Icon name={app.icon} size={ICON_32} alt={app.name} />
@@ -115,7 +114,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
           </div>
 
           {/* Right Panel - System Items */}
-          <div className="flex-1 px-3 py-3" style={{ background: '#DDE7F6' }}>
+          <div className="flex-1 px-3 py-3 start-right">
             <div className="space-y-0">
               {rightPanelItems.map((item) => (
                 <button
@@ -127,8 +126,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
                       handleAppClick(item.id)
                     }
                   }}
-                  className="w-full flex items-center px-2 py-1 text-left hover:bg-blue-200 rounded"
-                  style={{ minHeight: '26px' }}
+                  className="start-item"
                 >
                   <span className="w-5 h-5 flex items-center justify-center mr-2 text-sm">
                     <Icon name={item.icon} size={ICON_16} alt={item.name} />
@@ -146,7 +144,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
 
         {/* Footer */}
         <div 
-          className="h-12 flex items-center justify-end px-4 border-t grad-title-active"
+          className="h-12 flex items-center justify-end px-4 border-t start-footer"
         >
           <button 
             className="flex items-center px-3 py-1 text-white hover:bg-white hover:bg-opacity-20 rounded"
