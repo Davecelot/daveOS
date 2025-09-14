@@ -1,3 +1,4 @@
+import { Icon, ICON_16, ICON_32 } from './Icon'
 interface StartMenuProps {
   onClose: () => void
 }
@@ -10,25 +11,25 @@ export function StartMenu({ onClose }: StartMenuProps) {
   }
 
   const leftPanelApps = [
-    { id: 'internet', name: 'Internet', icon: '🌐', subtitle: 'Internet Explorer' },
-    { id: 'email', name: 'E-mail', icon: '📧', subtitle: 'Outlook Express' },
-    { id: 'mediaplayer', name: 'Windows Media Player', icon: '🎵', subtitle: '' },
-    { id: 'tour', name: 'Tour Windows XP', icon: '🚀', subtitle: '' },
-    { id: 'files', name: 'Files and Settings Transfer Wizard', icon: '📁', subtitle: '' },
+    { id: 'internet', name: 'Internet', icon: 'internet', subtitle: 'Internet Explorer' },
+    { id: 'email', name: 'E-mail', icon: 'email', subtitle: 'Outlook Express' },
+    { id: 'mediaplayer', name: 'Windows Media Player', icon: 'wmp', subtitle: '' },
+    { id: 'tour', name: 'Tour Windows XP', icon: 'help', subtitle: '' },
+    { id: 'files', name: 'Files and Settings Transfer Wizard', icon: 'folder', subtitle: '' },
   ]
 
   const rightPanelItems = [
-    { id: 'documents', name: 'My Documents', icon: '📄', type: 'folder' },
-    { id: 'recent', name: 'My Recent Documents', icon: '📋', type: 'folder', hasArrow: true },
-    { id: 'pictures', name: 'My Pictures', icon: '🖼️', type: 'folder' },
-    { id: 'music', name: 'My Music', icon: '🎵', type: 'folder' },
-    { id: 'computer', name: 'My Computer', icon: '💻', type: 'folder' },
-    { id: 'control', name: 'Control Panel', icon: '⚙️', type: 'system' },
-    { id: 'programs', name: 'Set Program Access and Defaults', icon: '🔧', type: 'system' },
-    { id: 'printers', name: 'Printers and Faxes', icon: '🖨️', type: 'system' },
-    { id: 'help', name: 'Help and Support', icon: '❓', type: 'system' },
-    { id: 'search', name: 'Search', icon: '🔍', type: 'system' },
-    { id: 'run', name: 'Run...', icon: '▶️', type: 'system' },
+    { id: 'documents', name: 'My Documents', icon: 'documents', type: 'folder' },
+    { id: 'recent', name: 'My Recent Documents', icon: 'documents', type: 'folder', hasArrow: true },
+    { id: 'pictures', name: 'My Pictures', icon: 'pictures', type: 'folder' },
+    { id: 'music', name: 'My Music', icon: 'music', type: 'folder' },
+    { id: 'computer', name: 'My Computer', icon: 'my-computer', type: 'folder' },
+    { id: 'control', name: 'Control Panel', icon: 'control-panel', type: 'system' },
+    { id: 'programs', name: 'Set Program Access and Defaults', icon: 'settings', type: 'system' },
+    { id: 'printers', name: 'Printers and Faxes', icon: 'printers', type: 'system' },
+    { id: 'help', name: 'Help and Support', icon: 'help', type: 'system' },
+    { id: 'search', name: 'Search', icon: 'search', type: 'system' },
+    { id: 'run', name: 'Run...', icon: 'run', type: 'system' },
   ]
 
   return (
@@ -79,7 +80,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
                   style={{ minHeight: '42px' }}
                 >
                   <span className="w-8 h-8 flex items-center justify-center text-lg mr-2">
-                    {app.icon}
+                    <Icon name={app.icon} size={ICON_32} alt={app.name} />
                   </span>
                   <div>
                     <div className="font-bold text-black" style={{
@@ -130,7 +131,7 @@ export function StartMenu({ onClose }: StartMenuProps) {
                   style={{ minHeight: '26px' }}
                 >
                   <span className="w-5 h-5 flex items-center justify-center mr-2 text-sm">
-                    {item.icon}
+                    <Icon name={item.icon} size={ICON_16} alt={item.name} />
                   </span>
                   <span className="text-black" style={{
                     fontSize: '11px',

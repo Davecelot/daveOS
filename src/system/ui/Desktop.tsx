@@ -1,9 +1,11 @@
+import { Icon, ICON_48 } from './Icon'
+
 export function Desktop() {
   const desktopIcons = [
-    { id: 'my-computer', name: 'My Computer', icon: '💻', position: { x: 20, y: 20 } },
-    { id: 'my-documents', name: 'My Documents', icon: '📁', position: { x: 20, y: 100 } },
-    { id: 'recycle-bin', name: 'Recycle Bin', icon: '🗑️', position: { x: 20, y: 180 } },
-    { id: 'my-network', name: 'My Network Places', icon: '🌐', position: { x: 20, y: 260 } },
+    { id: 'my-computer', name: 'My Computer', icon: 'my-computer', position: { x: 20, y: 20 } },
+    { id: 'my-documents', name: 'My Documents', icon: 'my-documents', position: { x: 20, y: 100 } },
+    { id: 'recycle-bin', name: 'Recycle Bin', icon: 'recycle-bin', position: { x: 20, y: 180 } },
+    { id: 'my-network', name: 'My Network Places', icon: 'my-network', position: { x: 20, y: 260 } },
   ]
 
   return (
@@ -27,8 +29,8 @@ export function Desktop() {
               console.log(`Opening ${icon.name}`)
             }}
           >
-            <div className="w-12 h-12 flex items-center justify-center text-3xl mb-1 drop-shadow-md">
-              {icon.icon}
+            <div className="w-12 h-12 flex items-center justify-center mb-1 drop-shadow-md">
+              <Icon name={icon.icon} size={ICON_48} alt={icon.name} />
             </div>
             <span className="icon-label text-white text-center break-words select-none" 
                   style={{

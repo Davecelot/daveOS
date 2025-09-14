@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Folder, 
-  File, 
-  Home, 
-  ArrowLeft, 
-  ArrowRight, 
-  ArrowUp, 
-  RefreshCw,
-  Search,
-  Grid,
-  List,
-  Trash2,
-  Copy,
-  Scissors,
-  FolderPlus,
-  FilePlus
-} from 'lucide-react';
+import { Icon, ICON_16, ICON_32 } from '@/system/ui/Icon';
+import { extToIconName } from '@/utils/fileAssoc';
 import { useSimpleFileSystemStore } from '../store/simple-filesystem';
 import { FSEntryType } from '../store/types';
 
@@ -127,28 +112,9 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
 
   const getFileIcon = (entry: any) => {
     if (entry.type === FSEntryType.FOLDER) {
-      return <Folder className="w-5 h-5 text-blue-500" />;
+      return <Icon name="folder" size={ICON_16} alt="Folder" />;
     }
-    
-    const ext = entry.name.split('.').pop()?.toLowerCase();
-    switch (ext) {
-      case 'txt':
-      case 'md':
-        return <File className="w-5 h-5 text-gray-600" />;
-      case 'js':
-      case 'ts':
-      case 'tsx':
-      case 'jsx':
-        return <File className="w-5 h-5 text-yellow-600" />;
-      case 'css':
-        return <File className="w-5 h-5 text-blue-600" />;
-      case 'html':
-        return <File className="w-5 h-5 text-orange-600" />;
-      case 'json':
-        return <File className="w-5 h-5 text-green-600" />;
-      default:
-        return <File className="w-5 h-5 text-gray-500" />;
-    }
+    return <Icon name={extToIconName(entry.name)} size={ICON_16} alt={entry.name} />;
   };
 
   const formatFileSize = (size?: number) => {
@@ -180,7 +146,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
             className="p-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed"
             title="Back"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <Icon name="back" size={ICON_16} alt="Back" />
           </button>
           
           <button
@@ -189,7 +155,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
             className="p-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed"
             title="Forward"
           >
-            <ArrowRight className="w-4 h-4" />
+            <Icon name="forward" size={ICON_16} alt="Forward" />
           </button>
           
           <button
@@ -198,7 +164,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
             className="p-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400 disabled:cursor-not-allowed"
             title="Up"
           >
-            <ArrowUp className="w-4 h-4" />
+            <Icon name="up" size={ICON_16} alt="Up" />
           </button>
           
           <button
@@ -206,7 +172,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
             className="p-1 text-gray-600 hover:text-gray-800"
             title="Home"
           >
-            <Home className="w-4 h-4" />
+            <Icon name="home" size={ICON_16} alt="Home" />
           </button>
           
           <button
@@ -214,13 +180,13 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
             className="p-1 text-gray-600 hover:text-gray-800"
             title="Refresh"
           >
-            <RefreshCw className="w-4 h-4" />
+            <Icon name="refresh" size={ICON_16} alt="Refresh" />
           </button>
         </div>
 
         <div className="flex items-center space-x-2">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Icon name="search" size={ICON_16} className="absolute left-2 top-1/2 -translate-y-1/2 opacity-60" alt="Search" />
             <input
               type="text"
               placeholder="Search files..."
@@ -236,14 +202,14 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
               className={`p-1 ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'text-gray-600 hover:text-gray-800'}`}
               title="List View"
             >
-              <List className="w-4 h-4" />
+              <Icon name="list" size={ICON_16} alt="List" />
             </button>
             <button
               onClick={() => setViewMode('grid')}
               className={`p-1 ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'text-gray-600 hover:text-gray-800'}`}
               title="Grid View"
             >
-              <Grid className="w-4 h-4" />
+              <Icon name="grid" size={ICON_16} alt="Grid" />
             </button>
           </div>
         </div>
@@ -251,7 +217,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
 
       {/* Address Bar */}
       <div className="flex items-center p-2 bg-gray-50 border-b border-gray-200">
-        <span className="text-sm text-gray-600 mr-2">📁</span>
+        <Icon name="folder" size={ICON_16} className="mr-2" alt="Folder" />
         <span className="text-sm font-mono">{currentPath}</span>
       </div>
 
@@ -318,7 +284,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
               >
                 <div className="flex flex-col items-center space-y-2">
                   <div className="text-3xl">
-                    {getFileIcon(entry)}
+                    <Icon name={entry.type === FSEntryType.FOLDER ? 'folder' : extToIconName(entry.name)} size={ICON_32} alt={entry.name} />
                   </div>
                   <span className="text-sm text-center truncate w-full">{entry.name}</span>
                   {entry.type === FSEntryType.FILE && (
@@ -332,7 +298,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
 
         {filteredEntries.length === 0 && (
           <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-            <Folder className="w-16 h-16 mb-4" />
+            <Icon name="folder" size={48} className="mb-4" alt="Empty" />
             <p>This folder is empty</p>
           </div>
         )}
@@ -362,14 +328,14 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
                 onClick={handleNewFolder}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 flex items-center space-x-2"
               >
-                <FolderPlus className="w-4 h-4" />
+                <Icon name="new-folder" size={ICON_16} alt="New Folder" />
                 <span>New Folder</span>
               </button>
               <button
                 onClick={handleNewFile}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 flex items-center space-x-2"
               >
-                <FilePlus className="w-4 h-4" />
+                <Icon name="new-file" size={ICON_16} alt="New File" />
                 <span>New File</span>
               </button>
             </>
@@ -380,14 +346,14 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
                 onClick={handleCopy}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 flex items-center space-x-2"
               >
-                <Copy className="w-4 h-4" />
+                <Icon name="copy" size={ICON_16} alt="Copy" />
                 <span>Copy</span>
               </button>
               <button
                 onClick={handleCut}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 flex items-center space-x-2"
               >
-                <Scissors className="w-4 h-4" />
+                <Icon name="cut" size={ICON_16} alt="Cut" />
                 <span>Cut</span>
               </button>
               <hr className="my-1" />
@@ -395,7 +361,7 @@ export const FileManager: React.FC<FileManagerProps> = ({ onClose: _onClose }) =
                 onClick={handleDelete}
                 className="w-full px-3 py-1 text-left text-sm hover:bg-gray-100 text-red-600 flex items-center space-x-2"
               >
-                <Trash2 className="w-4 h-4" />
+                <Icon name="trash" size={ICON_16} alt="Delete" />
                 <span>Delete</span>
               </button>
             </>

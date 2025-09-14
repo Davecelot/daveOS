@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useWindowStore } from '../store/windows'
 import { StartMenu } from './StartMenu'
+import { Icon, ICON_16 } from './Icon'
+import { appIdToIcon } from './icons'
 
 export function Taskbar() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -38,8 +40,8 @@ export function Taskbar() {
                 : '0 0 3px rgba(255,255,255,0.3)'
             }}
           >
-            <div className="w-5 h-5 mr-2 bg-white bg-opacity-90 rounded-sm flex items-center justify-center">
-              <span className="text-green-600 text-xs font-bold">▣</span>
+            <div className="w-5 h-5 mr-2 bg-white bg-opacity-90 rounded-sm flex items-center justify-center overflow-hidden">
+              <Icon name="start" size={ICON_16} alt="Start" />
             </div>
             <span style={{ fontStyle: 'italic' }}>Start</span>
           </button>
@@ -47,28 +49,31 @@ export function Taskbar() {
           {/* Quick Launch */}
           <div className="flex items-center h-full px-2 ml-2 border-l border-blue-300 border-opacity-50">
             <div className="flex space-x-1">
-              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="Show Desktop">
-                <span>▫</span>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp" title="Show Desktop">
+                <Icon name="show-desktop" size={ICON_16} alt="Show Desktop" />
               </button>
-              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="Internet Explorer">
-                <span>🌐</span>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp" title="Internet Explorer">
+                <Icon name="internet" size={ICON_16} alt="Internet" />
               </button>
-              <button className="w-6 h-6 flex items-center justify-center btn-xp text-[10px]" title="My Computer">
-                <span>💻</span>
+              <button className="w-6 h-6 flex items-center justify-center btn-xp" title="My Computer">
+                <Icon name="my-computer" size={ICON_16} alt="My Computer" />
               </button>
             </div>
           </div>
 
           {/* Task Buttons Area */}
-          <div className="flex-1 flex items-center h-full px-2">
+          <div className="flex-1 flex items-center h-full px-2 overflow-x-auto">
             {Object.values(windows).map((window: any) => (
               <button
                 key={window.id}
-                className="taskbar-btn mx-1 min-w-[120px] max-w-[160px] h-[26px] flex items-center px-2"
+                className="taskbar-btn mx-1 min-w-[140px] max-w-[200px] h-[26px] flex items-center px-2"
                 onClick={() => {
                   // Focus window logic would go here
                 }}
               >
+                <span className="mr-2 flex-shrink-0">
+                  <Icon name={appIdToIcon(window.appId)} size={ICON_16} alt={window.appId} />
+                </span>
                 <span className="truncate text-[11px]">{window.title}</span>
               </button>
             ))}
@@ -78,12 +83,12 @@ export function Taskbar() {
           <div className="flex items-center h-full px-3 bg-blue-500 bg-opacity-20 border-l border-blue-300 border-opacity-50">
             <div className="flex items-center space-x-2">
               {/* System Icons */}
-              <button className="w-4 h-4 hover:bg-white hover:bg-opacity-20 rounded" title="Volume">
-                <span className="text-[10px]">🔊</span>
-              </button>
-              <button className="w-4 h-4 hover:bg-white hover:bg-opacity-20 rounded" title="Network">
-                <span className="text-[10px]">📶</span>
-              </button>
+              <div className="w-4 h-4 flex items-center justify-center" title="Volume">
+                <Icon name="volume" size={ICON_16} alt="Volume" />
+              </div>
+              <div className="w-4 h-4 flex items-center justify-center" title="Network">
+                <Icon name="network" size={ICON_16} alt="Network" />
+              </div>
               
               {/* Clock */}
               <div className="text-white px-1 cursor-default" 

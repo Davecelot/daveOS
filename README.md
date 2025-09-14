@@ -1,3 +1,18 @@
+## 🖼️ Iconos y Licencias
+
+Este proyecto integra un sistema de iconografía estilo Windows XP.
+
+- Los íconos principales provienen de `WinXP-icon-theme` (GPL-2.0, assets solamente) y se ubican en `public/icons/xp/`.
+- Íconos de fallback opcional (CC0, dominio público) se ubican en `public/icons/xp-cc0/`.
+- El código del proyecto mantiene su propia licencia; los archivos de íconos conservan las suyas.
+
+Créditos y licencias:
+
+- WinXP-icon-theme — GPL-2.0 (icons only). Fuente: https://github.com/PonyRoleplayer/WinXP-icon-theme
+- Windows XP High Resolution Icon Pack — CC0. Fuente: https://github.com/marchmountain/-Windows-XP-High-Resolution-Icon-Pack
+
+Ver `public/icons/CREDITS.md` y los LICENSE dentro de cada pack para más detalles.
+
 # daveOS XP Mode
 
 WebOS 100% cliente con UI estilo Windows XP (tema Luna Blue), construido con React, TypeScript y Vite.
@@ -7,7 +22,7 @@ WebOS 100% cliente con UI estilo Windows XP (tema Luna Blue), construido con Rea
 - **UI estilo Windows XP Luna Blue**: Taskbar, Start Menu, ventanas con gradientes
 - **Window Manager**: Ventanas arrastrables, redimensionables, cascada/tiling
 - **Sistema de Archivos**: IndexedDB con API completa (CRUD, Recycle Bin, import/export)
-- **CMD**: xterm.js con shell simulado y comandos DOS-like
+- **Terminal**: terminal simple con comandos DOS-like (y soporte futuro para xterm)
 - **Apps integradas**: Explorer, Notepad, Paint, Calculator, Minesweeper y más
 - **PWA**: Instalable y funciona offline
 - **Accesibilidad**: Navegación por teclado, ARIA, alto contraste

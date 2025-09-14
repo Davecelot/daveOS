@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { X, Minus, Square, Maximize2 } from 'lucide-react';
 import { useWindowStore } from '../store/windows';
 import { useSessionStore } from '../store/session';
 import { useDragResize } from './useDragResize';
@@ -140,17 +139,25 @@ export function Window({ window, children }: WindowProps) {
   return (
     <div
       ref={windowRef}
-      className={`fixed bg-surface overflow-hidden ${window.focused ? '' : 'opacity-95'} ${window.maximized ? 'rounded-none' : 'rounded-xl'}`}
+      className={`fixed overflow-hidden ${window.focused ? '' : 'opacity-95'} ${window.maximized ? 'rounded-none' : ''}`}
       style={{
         ...windowStyle,
-        boxShadow: window.maximized ? 'none' : 'var(--shadow)',
-        border: window.focused ? '1px solid rgba(233, 84, 32, 0.3)' : '1px solid var(--surface-border)'
+        // XP window border stack
+        border: '1px solid #0831D9',
+        borderTopLeftRadius: window.maximized ? 0 : 6,
+        borderTopRightRadius: window.maximized ? 0 : 6,
+        boxShadow: window.maximized ? 'none' : [
+          'inset 0 0 0 1px #3B6EA5',
+          'inset 0 0 0 2px #9DB9EB',
+          '3px 3px 8px rgba(0,0,0,0.4)'
+        ].join(', '),
+        background: 'var(--win-surface)'
       }}
       onMouseDown={handleWindowClick}
     >
-      {/* GNOME HeaderBar */}
+      {/* XP Titlebar */}
       <div
-        className={`bg-surface border-b border-surface-border px-4 py-3 flex items-center justify-between cursor-move select-none ${window.maximized ? 'rounded-none' : 'rounded-t-xl'}`}
+        className={`px-2 flex items-center justify-between cursor-move select-none ${window.maximized ? '' : ''}`}
         onMouseDown={window.movable ? handleMouseDown : undefined}
         onDoubleClick={handleTitlebarDoubleClick}
         style={{
@@ -158,76 +165,91 @@ export function Window({ window, children }: WindowProps) {
             ? 'linear-gradient(180deg, var(--xp-title-blue-mid) 0%, var(--xp-title-blue-light) 100%)'
             : 'linear-gradient(180deg, var(--xp-title-inact-dark) 0%, var(--xp-title-inact-light) 100%)',
           color: window.focused ? '#fff' : '#234',
-          textShadow: window.focused ? '0 1px 0 rgba(0,0,0,.35)' : 'none'
+          textShadow: window.focused ? '0 1px 0 rgba(0,0,0,.35)' : 'none',
+          height: 22,
+          borderTopLeftRadius: window.maximized ? 0 : 6,
+          borderTopRightRadius: window.maximized ? 0 : 6,
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)'
         }}
       >
         <div className="flex items-center space-x-3 flex-1 min-w-0">
-          <span className="font-bold truncate" style={{ fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif', fontSize: 12 }}>{window.title}</span>
+          <span className="font-bold truncate" style={{ fontFamily: 'Tahoma, "Segoe UI", system-ui, sans-serif', fontSize: 11 }}>{window.title}</span>
         </div>
         
-        {/* Ubuntu GNOME style window controls (right side) */}
-        <div className="flex items-center space-x-2">
-          {/* Minimize Button */}
+        {/* XP window controls */}
+        <div className="flex items-center space-x-1">
           {window.minimizable && (
             <button
-              className="w-7 h-7 rounded-full hover:bg-yellow-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
-              onClick={(e) => {
-                e.stopPropagation()
-                minimizeWindow(window.id)
-              }}
+              className="w-5 h-5 flex items-center justify-center"
+              onClick={(e) => { e.stopPropagation(); minimizeWindow(window.id) }}
               title="Minimize"
+              style={{
+                background: 'linear-gradient(180deg, #FEFEFE 0%, #E6E6E6 100%)',
+                border: '1px solid #7F9DB9',
+                boxShadow: 'inset 1px 1px 0 #FFFFFF, inset -1px -1px 0 #A0A0A0',
+                borderRadius: 2
+              }}
             >
-              <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
-                <Minus size={8} className="text-yellow-900 opacity-0 group-hover:opacity-100" />
-              </div>
+              <div style={{ width: 9, height: 2, background: '#245EDB', marginTop: 4 }} />
             </button>
           )}
-          
-          {/* Maximize/Restore Button */}
           {window.maximizable && (
             <button
-              className="w-7 h-7 rounded-full hover:bg-green-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
+              className="w-5 h-5 flex items-center justify-center"
               onClick={(e) => {
-                e.stopPropagation()
-                if (window.maximized) {
-                  restoreWindow(window.id)
-                } else {
-                  maximizeWindow(window.id)
-                }
+                e.stopPropagation();
+                if (window.maximized) { restoreWindow(window.id) } else { maximizeWindow(window.id) }
               }}
-              title={window.maximized ? "Restore" : "Maximize"}
+              title={window.maximized ? 'Restore' : 'Maximize'}
+              style={{
+                background: 'linear-gradient(180deg, #FEFEFE 0%, #E6E6E6 100%)',
+                border: '1px solid #7F9DB9',
+                boxShadow: 'inset 1px 1px 0 #FFFFFF, inset -1px -1px 0 #A0A0A0',
+                borderRadius: 2
+              }}
             >
-              <div className="w-3 h-3 rounded-full bg-green-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
-                {window.maximized ? 
-                  <Square size={6} className="text-green-900 opacity-0 group-hover:opacity-100" /> : 
-                  <Maximize2 size={6} className="text-green-900 opacity-0 group-hover:opacity-100" />
-                }
-              </div>
+              <div style={{ width: 9, height: 7, border: '1px solid #245EDB' }} />
             </button>
           )}
-          
-          {/* Close Button */}
           {window.closable && (
             <button
-              className="w-7 h-7 rounded-full hover:bg-red-500 hover:bg-opacity-20 flex items-center justify-center transition-all duration-200 group"
-              onClick={(e) => {
-                e.stopPropagation()
-                closeWindow(window.id)
-              }}
+              className="w-5 h-5 flex items-center justify-center"
+              onClick={(e) => { e.stopPropagation(); closeWindow(window.id) }}
               title="Close"
+              style={{
+                background: 'linear-gradient(180deg, #F5A9A9 0%, #C84545 100%)',
+                border: '1px solid #A83333',
+                borderRadius: 2,
+                color: '#fff',
+                textShadow: '0 1px 0 rgba(0,0,0,0.3)'
+              }}
             >
-              <div className="w-3 h-3 rounded-full bg-red-500 opacity-80 group-hover:opacity-100 flex items-center justify-center">
-                <X size={8} className="text-red-900 opacity-0 group-hover:opacity-100" />
-              </div>
+              <span style={{ fontSize: 10, fontWeight: 700, lineHeight: 1 }}>×</span>
             </button>
           )}
         </div>
       </div>
 
       {/* Window Content */}
-      <div className="flex-1 overflow-hidden" style={{ background: 'var(--win-surface)' }}>
+      <div className="flex-1 overflow-hidden" style={{ background: 'var(--win-surface)', borderTop: '1px solid #D6E3F5' }}>
         {children}
       </div>
+
+      {/* Decorative resize grip (bottom-right) */}
+      {window.resizable && !window.maximized && (
+        <div
+          style={{
+            position: 'absolute',
+            right: 2,
+            bottom: 2,
+            width: 14,
+            height: 14,
+            background: 'repeating-linear-gradient(135deg, rgba(0,0,0,0.15) 0 2px, rgba(255,255,255,0.6) 2px 4px)',
+            borderRadius: 2,
+            opacity: 0.6
+          }}
+        />
+      )}
 
       {/* Resize Handles */}
       {window.resizable && !window.maximized && resizeHandles.map(({ handle, onMouseDown, className, style }) => (
