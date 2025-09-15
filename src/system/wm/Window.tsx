@@ -4,7 +4,7 @@ import { useSessionStore } from '../store/session';
 import { useDragResize } from './useDragResize';
 import { Icon, ICON_16 } from '@/system/ui/Icon';
 import { appIdToIcon } from '@/system/ui/icons';
-import { FileManager } from '../apps/FileManager';
+import { FileManager } from '../apps/FileManager/FileManager';
 import { TextEdit } from '../apps/TextEdit';
 import { Calculator } from '../apps/Calculator';
 import { Notes } from '../apps/Notes';
