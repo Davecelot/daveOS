@@ -1,18 +1,42 @@
 import { Icon, ICON_16, ICON_32 } from './Icon'
+import { useWindowStore } from '../store/windows'
+
 interface StartMenuProps {
   onClose: () => void
 }
 
 export function StartMenu({ onClose }: StartMenuProps) {
+  const { openWindow } = useWindowStore()
+  
   const handleAppClick = (appId: string) => {
-    // TODO: Implement proper app opening using openWindow
-    console.log(`Opening app: ${appId}`)
+    const appTitles: Record<string, string> = {
+      cmd: 'Command Prompt',
+      files: 'My Computer',
+      internet: 'Internet Explorer',
+      email: 'Outlook Express',
+      mediaplayer: 'Windows Media Player',
+      calculator: 'Calculator',
+      textedit: 'Notepad',
+      settings: 'Control Panel'
+    }
+    
+    openWindow({
+      appId,
+      title: appTitles[appId] || appId,
+      bounds: {
+        x: 100 + Math.random() * 200,
+        y: 100 + Math.random() * 200,
+        width: appId === 'cmd' ? 800 : 600,
+        height: appId === 'cmd' ? 500 : 400
+      }
+    })
     onClose()
   }
 
   const leftPanelApps = [
     { id: 'internet', name: 'Internet', icon: 'internet', subtitle: 'Internet Explorer' },
     { id: 'email', name: 'E-mail', icon: 'email', subtitle: 'Outlook Express' },
+    { id: 'cmd', name: 'Command Prompt', icon: 'cmd', subtitle: '' },
     { id: 'mediaplayer', name: 'Windows Media Player', icon: 'wmp', subtitle: '' },
     { id: 'tour', name: 'Tour Windows XP', icon: 'help', subtitle: '' },
     { id: 'files', name: 'Files and Settings Transfer Wizard', icon: 'folder', subtitle: '' },

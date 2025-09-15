@@ -13,6 +13,7 @@ import { Settings } from '../apps/Settings';
 import { Calendar } from '../apps/Calendar';
 import { SystemMonitor } from '../apps/SystemMonitor';
 import { SimpleTerminal } from '../apps/SimpleTerminal';
+import { Terminal } from '../apps/Terminal';
 import type { WindowState } from '../store/types';
 
 interface WindowProps {
@@ -293,6 +294,7 @@ function WindowContent({ windowId, appId }: { windowId: string; appId: string })
 
   const apps: Record<string, React.ComponentType<any>> = {
     terminal: SimpleTerminal,
+    cmd: Terminal,
     textedit: TextEdit,
     files: FileManager,
     settings: Settings,

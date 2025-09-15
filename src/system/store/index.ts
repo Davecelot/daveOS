@@ -1,2 +1,3 @@
 export * from './simple-filesystem';
-export * from './clipboard'; // Añadir esta línea
+export * from './clipboard';
+export * from './terminal';

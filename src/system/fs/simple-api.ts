@@ -147,6 +147,18 @@ Explore and enjoy!`;
     }
   }
 
+  static async getEntryByPath(path: string): Promise<SimpleEntry | undefined> {
+    try {
+      if (path === '/') {
+        return await db.fsEntries.get('root');
+      }
+      return await db.fsEntries.where('path').equals(path).first();
+    } catch (error) {
+      console.error(`Failed to get entry by path ${path}:`, error);
+      return undefined;
+    }
+  }
+
   static async createFolder(name: string, parentPath: string): Promise<boolean> {
     try {
       const parent = await db.fsEntries.where('path').equals(parentPath).first();
